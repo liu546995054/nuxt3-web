@@ -157,7 +157,11 @@ export default defineNuxtConfig({
       }
     },
     // 禁用 CSS 代码分割（临时排查是否为此问题）
-    cssCodeSplit: false
+    cssCodeSplit: false,
+    define: {
+      // 将 publicAssetsURL 替换为 Nuxt 资源路径
+      'publicAssetsURL': 'new URL("/", import.meta.url).href'
+    }
   }
 
 
