@@ -11,9 +11,9 @@ export default defineNuxtConfig({
     '/css/math-captcha-frontend-css.css',
     '/css/zwebs-theme-css.css',
     '/css/custom-style-css.css',
-    '/css/font-awesome.min.css',
-    '/css/jquery.fancybox.min.css',
-    '/css/swiper.min.css'
+    '/css/font-awesome.css',
+    '/css/jquery.fancybox.css',
+    '/css/swiper.css'
   ],
 
   app: {
