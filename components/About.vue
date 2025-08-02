@@ -1,5 +1,32 @@
 <template>
   <div class="container">
+    <!--    <section id="wewe-8" class="section-item section-editor">-->
+    <!--      <div class="inner">-->
+    <!--        <div class="section-container">-->
+    <!--          <h2 class="heading-title tmd"><b>{{ $t('home_about[0]') }}</b></h2>-->
+    <!--          <div class="section-content section-title">-->
+    <!--            <p class="max70 aligncenter">-->
+    <!--              <strong>{{ $t('home_about[1]') }}</strong> {{ $t('home_about[2]') }}-->
+    <!--            </p>-->
+    <!--            <div class="pop-slider my-swiper-container"> &lt;!&ndash; 添加 my-swiper-container 类 &ndash;&gt;-->
+    <!--              &lt;!&ndash; Swiper 组件 &ndash;&gt;-->
+    <!--              <Swiper-->
+    <!--                  ref="swiperRef"-->
+    <!--                  :modules="modules"-->
+    <!--                  :autoplay="{ delay: 3000, disableOnInteraction: false }"-->
+    <!--                  :loop="true"-->
+    <!--                  :pagination="{ clickable: true }"-->
+    <!--                  class="my-swiper"-->
+    <!--              >-->
+    <!--                <SwiperSlide v-for="item in slides" :key="item.id">-->
+    <!--                  <img :src="item.image" alt="轮播图" class="w-full h-full object-cover" />-->
+    <!--                </SwiperSlide>-->
+    <!--              </Swiper>-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </section>-->
     <section id="wewe-8" class="section-item section-editor">
       <div class="inner">
         <div class="section-container">
@@ -7,21 +34,37 @@
           <div class="section-content section-title">
             <p class="max70 aligncenter">
               <strong>{{ $t('home_about[1]') }}</strong> {{ $t('home_about[2]') }}
+
             </p>
-            <div class="pop-slider my-swiper-container"> <!-- 添加 my-swiper-container 类 -->
-              <!-- Swiper 组件 -->
-              <Swiper
-                  ref="swiperRef"
-                  :modules="modules"
-                  :autoplay="{ delay: 3000, disableOnInteraction: false }"
-                  :loop="true"
-                  :pagination="{ clickable: true }"
-                  class="my-swiper"
-              >
-                <SwiperSlide v-for="item in slides" :key="item.id">
-                  <img :src="item.image" alt="轮播图" class="w-full h-full object-cover" />
-                </SwiperSlide>
-              </Swiper>
+            <div class="pop-slider">
+              <div class="pop-gallery-slider pop-gallery-slider-1 carousel-horizontal swiper-container-horizontal"
+                   data-grid="1" data-group="1" data-delay="2800">
+                <div
+                    class="gallery galleryid-565 gallery-columns-1 gallery-size-full swiper-wrapper">
+
+                  <figure class="gallery-item swiper-slide">
+                    <div class="gallery-icon landscape">
+                      <img width="1200" height="385" src="/images/about/bg1.jpg"
+                           class="attachment-full size-full" alt="Trade Assurance">
+                    </div>
+                  </figure>
+                  <figure class="gallery-item swiper-slide">
+                    <div class="gallery-icon landscape">
+                      <img width="1200" height="385" src="/images/about/bg2.jpg"
+                           class="attachment-full size-full" alt="Trade Assurance">
+                    </div>
+                  </figure>
+                  <figure class="gallery-item swiper-slide">
+                    <div class="gallery-icon landscape">
+                      <img width="1200" height="385" src="/images/about/bg3.jpg"
+                           class="attachment-full size-full" alt="Trade Assurance">
+                    </div>
+                  </figure>
+                </div>
+                <div class="swiper-pagination pop-swiper-pagination"></div>
+                <div class="swiper-button-prev pop-swiper-button-prev"></div>
+                <div class="swiper-button-next pop-swiper-button-next"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -57,7 +100,9 @@
 												<strong>
 													<em>
 														<span
-                                style="font-size: 16px; color: rgb(23, 31, 94); line-height: 1.8;">{{ $t('home_about[7]') }}</span>
+                                style="font-size: 16px; color: rgb(23, 31, 94); line-height: 1.8;">{{
+                                $t('home_about[7]')
+                              }}</span>
 													</em>
 												</strong>
 												<span style="font-size: 16px; line-height: 1.8;">
@@ -104,33 +149,33 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import 'swiper/css'
-import 'swiper/css/pagination'
-import 'swiper/css/autoplay'
-import { Autoplay, Pagination } from 'swiper'
-
-const swiperRef = ref(null)
-const modules = ref([Autoplay, Pagination])
-
-const slides = ref([
-  { id: 1, image: '/images/about/bg1.jpg' },
-  { id: 2, image: '/images/about/bg2.jpg' },
-  { id: 3, image: '/images/about/bg3.jpg' }
-])
-
-onMounted(() => {
-  console.log('Swiper 实例:', swiperRef.value) // 检查实例是否存在
-
-  // 调试：确认 Swiper 已初始化并自动播放
-  setTimeout(() => {
-    if (swiperRef.value) {
-      console.log('Swiper 配置:', swiperRef.value.params)
-      console.log('自动播放状态:', swiperRef.value.autoplay.running)
-    }
-  }, 500)
-})
+// import {ref, onMounted} from 'vue'
+// import {Swiper, SwiperSlide} from 'swiper/vue'
+// import 'swiper/css'
+// import 'swiper/css/pagination'
+// import 'swiper/css/autoplay'
+// import {Autoplay, Pagination} from 'swiper'
+//
+// const swiperRef = ref(null)
+// const modules = ref([Autoplay, Pagination])
+//
+// const slides = ref([
+//   {id: 1, image: '/images/about/bg1.jpg'},
+//   {id: 2, image: '/images/about/bg2.jpg'},
+//   {id: 3, image: '/images/about/bg3.jpg'}
+// ])
+//
+// onMounted(() => {
+//   console.log('Swiper 实例:', swiperRef.value) // 检查实例是否存在
+//
+//   // 调试：确认 Swiper 已初始化并自动播放
+//   setTimeout(() => {
+//     if (swiperRef.value) {
+//       console.log('Swiper 配置:', swiperRef.value.params)
+//       console.log('自动播放状态:', swiperRef.value.autoplay.running)
+//     }
+//   }, 500)
+// })
 </script>
 
 <style scoped>
