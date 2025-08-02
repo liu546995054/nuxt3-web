@@ -4,20 +4,30 @@ console.log('ppppppppp',process.env.NUXT_PUBLIC_SITE_URL)
 export default defineNuxtConfig({
   // 开启SSG模式配置
   ssr: true,
-  target: 'static',
+  // target: 'static',
+  css: [
+    '/css/style.min.css',
+    '/css/contact-form-7-css.css',
+    '/css/math-captcha-frontend-css.css',
+    '/css/zwebs-theme-css.css',
+    '/css/custom-style-css.css',
+    '/css/font-awesome.min.css',
+    '/css/jquery.fancybox.min.css',
+    '/css/swiper.min.css'
+  ],
 
   app: {
     head: {
       link: [
         // 本地样式
-        { rel: 'stylesheet', href: '/css/style.min.css' },
-        { rel: 'stylesheet', href: '/css/contact-form-7-css.css' },
-        { rel: 'stylesheet', href: '/css/math-captcha-frontend-css.css' },
-        { rel: 'stylesheet', href: '/css/zwebs-theme-css.css' },
-        { rel: 'stylesheet', href: '/css/custom-style-css.css' },
-        { rel: 'stylesheet', href: '/css/font-awesome.min.css' },
-        { rel: 'stylesheet', href: '/css/jquery.fancybox.min.css' },
-        { rel: 'stylesheet', href: '/css/swiper.min.css' },
+        // { rel: 'stylesheet', href: '/css/style.min.css' },
+        // { rel: 'stylesheet', href: '/css/contact-form-7-css.css' },
+        // { rel: 'stylesheet', href: '/css/math-captcha-frontend-css.css' },
+        // { rel: 'stylesheet', href: '/css/zwebs-theme-css.css' },
+        // { rel: 'stylesheet', href: '/css/custom-style-css.css' },
+        // { rel: 'stylesheet', href: '/css/font-awesome.min.css' },
+        // { rel: 'stylesheet', href: '/css/jquery.fancybox.min.css' },
+        // { rel: 'stylesheet', href: '/css/swiper.min.css' },
         // // CDN资源
         // {
         //   rel: 'stylesheet',
@@ -129,10 +139,26 @@ export default defineNuxtConfig({
 
   // SSG预渲染路由
   nitro: {
+    preset: 'vercel-static',
     prerender: {
       routes: getPrerenderRoutes()
     }
   },
+
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          // 明确资产文件名格式，避免解析异常
+          assetFileNames: 'assets/[name]-[hash].[ext]',
+          chunkFileNames: 'js/[name]-[hash].js',
+          entryFileNames: 'js/[name]-[hash].js'
+        }
+      }
+    },
+    // 禁用 CSS 代码分割（临时排查是否为此问题）
+    cssCodeSplit: false
+  }
 
 
 
