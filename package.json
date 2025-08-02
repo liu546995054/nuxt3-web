@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
+    "build": "nuxt generate",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -18,7 +18,7 @@
     "vue-router": "^4.5.1"
   },
   "overrides": {
-    "oxc-parser": "0.59.0",
-    "@oxc-parser/wasm": "0.59.0"
+    "oxc-parser": "0.38.0",
+    "@oxc-parser/wasm": "0.38.0"
   }
 }
