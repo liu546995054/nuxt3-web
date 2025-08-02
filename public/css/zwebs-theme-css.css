@@ -3919,7 +3919,7 @@ a:hover {
 	height: 48px;
 	border-radius: 100%;
 	opacity: .7;
-	background: url(/images/xloading.gif) no-repeat center center
+	/*background: url(/images/xloading.gif) no-repeat center center*/
 }
 
 .single-product-gallery .product-thumbs-wrapper {
