@@ -16,5 +16,9 @@
     "vue-awesome-swiper": "^5.0.1",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
+  },
+  "overrides": {
+    "oxc-parser": "0.59.0",
+    "@oxc-parser/wasm": "0.59.0"
   }
 }
