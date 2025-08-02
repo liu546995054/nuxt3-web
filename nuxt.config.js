@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   ssr: true,
   // target: 'static',
   css: [
-    '/css/style.min.css',
+    '/css/style.css',
     '/css/contact-form-7-css.css',
     '/css/math-captcha-frontend-css.css',
     '/css/zwebs-theme-css.css',
