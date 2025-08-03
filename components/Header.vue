@@ -191,6 +191,7 @@ const langCookie = useCookie('i18n_redirected', {
  * @param {string} lang - 目标语言代码 (如 'en', 'zh')
  */
 const changeLanguage = async (lang) => {
+  console.log(333333333333333)
   try {
 
 

@@ -16,7 +16,8 @@ export default defineNuxtConfig({
   ],
 
   app: {
-    buildAssetsDir: '/_nuxt/', // 明确指定构建资源目录
+    buildAssetsDir: '/_nuxt/',  // Vercel默认路径
+    baseURL: '/',
     head: {
       link: [
       ],
@@ -36,13 +37,16 @@ export default defineNuxtConfig({
   // 构建配置
   build: {
     // 生产环境移除console
-    terser: {
-      terserOptions: {
-        compress: {
-          drop_console: process.env.NODE_ENV === 'production'
-        }
-      }
-    },
+    // terser: {
+    //   terserOptions: {
+    //     compress: {
+    //       drop_console: process.env.NODE_ENV === 'production'
+    //     }
+    //   }
+    // },
+    transpile: [
+      '@fortawesome/fontawesome-free' // 如果使用FontAwesome
+    ],
 
     // 开发环境sourcemap
     devtools: { enabled: true }
@@ -135,18 +139,23 @@ export default defineNuxtConfig({
 
   vite: {
     build: {
+      assetsInlineLimit: 4096, // 小于4KB的文件转为base64
       rollupOptions: {
         output: {
-          // 明确资产文件名格式，避免解析异常
-          assetFileNames: 'assets/[name]-[hash].[ext]',
-          chunkFileNames: 'js/[name]-[hash].js',
-          entryFileNames: 'js/[name]-[hash].js'
+          assetFileNames: (assetInfo) => {
+            if (/\.(woff2?|ttf|eot|svg)$/.test(assetInfo.name)) {
+              return '_nuxt/fonts/[name]-[hash][extname]'  // 字体特殊路径
+            }
+            return '_nuxt/assets/[name]-[hash][extname]'
+          }
         }
       }
     },
     // 禁用 CSS 代码分割（临时排查是否为此问题）
     cssCodeSplit: false,
   },
+
+
 
 
 
