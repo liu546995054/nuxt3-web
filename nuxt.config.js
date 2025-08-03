@@ -22,10 +22,13 @@ export default defineNuxtConfig({
   // CSS配置优化
   css: [
     '~/assets/css/style.css',
+    '~/assets/css/contact-form-7-css.css', // 保留
+    '~/assets/css/math-captcha-frontend-css.css', // 保留
+    '~/assets/css/zwebs-theme-css.css', // 保留
+    '~/assets/css/custom-style-css.css', // 保留
     '~/assets/css/font-awesome.css',
     '~/assets/css/jquery.fancybox.css',
-    '~/assets/css/swiper.css',
-    // 移除可能冲突的插件CSS
+    '~/assets/css/swiper.css'
   ],
 
   // 构建配置
