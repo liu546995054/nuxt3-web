@@ -46,7 +46,7 @@
                         data-aos-delay="50">
                   <div class="item-grid-box">
                     <NuxtLinkLocale to="/application/scrap-metal-compression">
-                      <a href="javascript:void(0)" title="HMS 1&2 Scrap Metal Compression">
+                      <figure title="HMS 1&2 Scrap Metal Compression">
                         <div class="item-cover">
                           <div class="attachment">
                             <div class="thumbnail">
@@ -64,7 +64,7 @@
                         <figcaption>
                           <h3>{{ $t('application.scrap_metal_compression')}}</h3>
                         </figcaption>
-                      </a>
+                      </figure>
                     </NuxtLinkLocale>
 
 
@@ -74,7 +74,7 @@
                         data-aos-delay="50">
                   <div class="item-grid-box">
                     <NuxtLinkLocale to="/application/metal-chips-shavings-turnings-compression">
-                      <a href="javascript:void(0)"
+                      <figure
                          title="Metal Chips/Shavings/Turnings Compression">
                         <div class="item-cover">
                           <div class="attachment">
@@ -94,7 +94,7 @@
                         <figcaption>
                           <h3>{{ $t('application.metal_chips_compression')}}</h3>
                         </figcaption>
-                      </a>
+                      </figure>
                     </NuxtLinkLocale>
                   </div>
                 </figure>
@@ -102,7 +102,7 @@
                         data-aos-delay="50">
                   <div class="item-grid-box">
                     <NuxtLinkLocale to="/application/scrap-metal-cutting-shear">
-                      <a href="javascript:void(0)" title="Scrap Metal Cutting Shear">
+                      <figure  title="Scrap Metal Cutting Shear">
                         <div class="item-cover">
                           <div class="attachment">
                             <div class="thumbnail">
@@ -120,7 +120,7 @@
                         <figcaption>
                           <h3>{{ $t('application.scrap_metal_cutting_shear')}}<</h3>
                         </figcaption>
-                      </a>
+                      </figure>
                     </NuxtLinkLocale>
                   </div>
                 </figure>
@@ -128,7 +128,7 @@
                         data-aos-delay="50">
                   <div class="item-grid-box">
                     <NuxtLinkLocale to="/application/light-scrap-shredding-crushing">
-                      <a href="javascript:void(0)" title="Light Scrap Shredding/Crushing">
+                      <figure  title="Light Scrap Shredding/Crushing">
                         <div class="item-cover">
                           <div class="attachment">
                             <div class="thumbnail">
@@ -146,7 +146,7 @@
                         <figcaption>
                           <h3>{{ $t('application.light_scrap_shredding')}}</h3>
                         </figcaption>
-                      </a>
+                      </figure>
                     </NuxtLinkLocale>
                   </div>
                 </figure>
