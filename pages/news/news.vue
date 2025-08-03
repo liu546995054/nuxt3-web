@@ -46,7 +46,7 @@
                               :data-aos-delay="index * 100"
                           >
                             <figure class="post-thumbnail">
-                              <NuxtLink :to="`/news/${news.id}`">
+                              <NuxtLinkLocale :to="`/news/${news.original_id }`">
                                 <div class="item-cover">
                                   <div class="attachment">
                                     <div class="thumbnail">
@@ -64,11 +64,11 @@
                                   </div>
                                   <i class="mask"></i>
                                 </div>
-                              </NuxtLink>
+                              </NuxtLinkLocale>
                             </figure>
                             <div class="post-excerpt">
                               <h3>
-                                <NuxtLinkLocale :to="`/news/${news.slug}`" :title="news.title">
+                                <NuxtLinkLocale :to="`/news/${news.original_id}`" :title="news.title">
                                   {{ news.title }}
                                 </NuxtLinkLocale>
                               </h3>
@@ -88,7 +88,7 @@
                                 {{ news.excerpt }}
                               </div>
                               <div class="link-read-more">
-                                <NuxtLinkLocale :to="`/news/${news.slug}`">
+                                <NuxtLinkLocale :to="`/news/${news.original_id}`">
                                   <span>{{ $t('news.readMore') }}</span>
                                   <i class="fa fa-angle-right"></i>
                                 </NuxtLinkLocale>
@@ -156,93 +156,7 @@ const totalPages = ref(1)
 const itemsPerPage = ref(3) // 每页显示3条
 const isHydrated = ref(false)
 
-// 模拟数据
-const enList = ref([
-  {
-    "id": 1,
-    "title": "englishTitle",
-    "slug": "news-title",
-    "imageUrl": "/images/news/n1.png",
-    "alt": "englishDesc",
-    "date": "2024-02-11T00:00:00Z",
-    "excerpt": "englishAbstract..."
-  },
-  {
-    "id": 2,
-    "title": "englishTitle",
-    "slug": "news-title",
-    "imageUrl": "/images/news/n1.png",
-    "alt": "englishDesc",
-    "date": "2024-02-11T00:00:00Z",
-    "excerpt": "englishAbstract..."
-  },
-  {
-    "id": 3,
-    "title": "englishTitle",
-    "slug": "news-title",
-    "imageUrl": "/images/news/n1.png",
-    "alt": "englishDesc",
-    "date": "2024-02-11T00:00:00Z",
-    "excerpt": "englishAbstract..."
-  },
-])
-const espList = ref([
-  {
-    "id": 1,
-    "title": "espTitle",
-    "slug": "news-title",
-    "imageUrl": "/images/news/n1.png",
-    "alt": "espDesc",
-    "date": "2024-02-11T00:00:00Z",
-    "excerpt": "espAbstract..."
-  },
-  {
-    "id": 2,
-    "title": "espTitle",
-    "slug": "news-title",
-    "imageUrl": "/images/news/n1.png",
-    "alt": "espDesc",
-    "date": "2024-02-11T00:00:00Z",
-    "excerpt": "espAbstract..."
-  },
-  {
-    "id": 3,
-    "title": "espTitle",
-    "slug": "news-title",
-    "imageUrl": "/images/news/n1.png",
-    "alt": "espDesc",
-    "date": "2024-02-11T00:00:00Z",
-    "excerpt": "espAbstract..."
-  },
-])
-const ruList = ref([
-  {
-    "id": 1,
-    "title": "ruTitle",
-    "slug": "news-title",
-    "imageUrl": "/images/news/n1.png",
-    "alt": "ruDesc",
-    "date": "2024-02-11T00:00:00Z",
-    "excerpt": "ruAbstract..."
-  },
-  {
-    "id": 2,
-    "title": "ruTitle",
-    "slug": "news-title",
-    "imageUrl": "/images/news/n1.png",
-    "alt": "ruDesc",
-    "date": "2024-02-11T00:00:00Z",
-    "excerpt": "ruAbstract..."
-  },
-  {
-    "id": 3,
-    "title": "ruTitle",
-    "slug": "news-title",
-    "imageUrl": "/images/news/n1.png",
-    "alt": "ruDesc",
-    "date": "2024-02-11T00:00:00Z",
-    "excerpt": "ruAbstract..."
-  },])
+
 
 // 计算属性
 const backgroundImage = computed(() => '/images/news/bg1.jpg')
@@ -255,22 +169,56 @@ const paginatedNews = computed(() => {
 const showEmptyState = computed(() => newsList.value.length === 0)
 const showPagination = computed(() => totalPages.value > 1)
 
+
 // 获取新闻数据
 const fetchNews = async (page = 1, lang) => {
   try {
-    const dataSource = {
-      en: enList.value,
-      esp: espList.value,
-      ru: ruList.value
-    }[lang] || enList.value
+    const apiUrl = `https://cloud-note-1256263900.cos.ap-nanjing.myqcloud.com/news.json`;
 
-    newsList.value = dataSource
-    totalPages.value = Math.ceil(dataSource.length / itemsPerPage.value)
-    currentPage.value = page
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) {
+      // 处理404或其他错误（例如跳转到404页面）
+      if (response.status === 404) {
+        throw createError({ statusCode: 404, statusMessage: 'News not found' });
+      }
+      throw createError({ statusCode: response.status, statusMessage: 'Failed to fetch news' });
+    }
+
+    const data = await response.json();
+
+
+    newsList.value = data.news.filter(v=>v.lang === currentLang.value)
+    // 关键优化：为列表中的每条新闻预生成ISR缓存
+    await pregenerateISR(newsList, currentLang.value);
   } catch (err) {
     console.error('Failed to fetch news:', err)
   }
 }
+
+// 预生成详情页ISR缓存
+const pregenerateISR = async (newsItems, lang) => {
+  if (process.client) return; // 仅在服务端执行
+
+  await Promise.all(
+      newsItems.map(async (news) => {
+        // 处理默认语言路径（en不带前缀）
+        const path = news.lang === 'en'
+            ? `/news/${news.original_id}`  // 默认语言路径
+            : `/${news.lang}/news/${news.original_id}`; // 其他语言路径
+
+        try {
+          await $fetch(path, {
+            headers: { 'x-prerender-revalidate': 'true' },
+            params: { _isr: 1 }
+          });
+          console.log(`预生成ISR: ${path}`);
+        } catch (err) {
+          console.error(`预生成失败 ${path}:`, err);
+        }
+      })
+  );
+};
 
 // 分页切换
 const changePage = (page) => {

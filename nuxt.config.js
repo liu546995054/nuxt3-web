@@ -134,8 +134,39 @@ export default defineNuxtConfig({
     preset: 'vercel-static',
     prerender: {
       routes: getPrerenderRoutes()
+    },
+    routeRules: {
+      // 匹配所有语言的新闻详情页（ISR 缓存 1 小时）
+      '/**/news/[id]': {
+        isr: 3600,
+        cache: {
+          swr: true,
+          maxAge: 3600,
+          staleMaxAge: 0 // 禁用旧缓存
+        }
+      },
+      // 默认语言路由（无前缀）
+      '/news/[id]': {
+        isr: 3600,
+        cache: { swr: true, maxAge: 3600 }
+      },
+      // 缓存 API 接口（避免重复请求）
+      'https://cloud-note-1256263900.cos.ap-nanjing.myqcloud.com/news.json': {
+        cache: { swr: true, maxAge: 60 } // 短缓存，确保数据及时更新
+      }
     }
   },
+
+  // routeRules: {
+  //   // 匹配所有语言的新闻详情页（支持多语言路由）
+  //   '/**/news/[id]': {
+  //     isr: 3600 // 缓存 1 小时（3600 秒），过期后访问会触发重新生成
+  //   },
+  //   // 若有默认语言路由（无 locale 前缀），单独匹配
+  //   '/news/[id]': {
+  //     isr: 3600
+  //   }
+  // },
 
   vite: {
     build: {
