@@ -75,13 +75,7 @@
                               <div class="post-meta">
                                 <span class="date">
                                   <i class="fa fa-clock-o"></i>
-                                  {{ formatDate(news.date) }}
-                                </span>
-                                <span class="cat">
-                                  <i class="fa fa-folder-open-o"></i>
-                                  <NuxtLinkLocale to="/news/news" rel="category tag">
-                                    {{ $t('menu.news') }}
-                                  </NuxtLinkLocale>
+                                  {{ news.date }}
                                 </span>
                               </div>
                               <div class="opacity excerpt-content">
@@ -97,10 +91,6 @@
                           </li>
                         </ul>
 
-                        <!-- 空状态 -->
-                        <div v-if="showEmptyState" class="empty-state">
-                          <p>{{ $t('news.noNews') }}</p>
-                        </div>
                       </div>
                     </div>
                   </div>
