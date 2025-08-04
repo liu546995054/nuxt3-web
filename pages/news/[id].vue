@@ -121,8 +121,7 @@
                 <div class="back-to-list">
                   <NuxtLinkLocale to="/news/news" class="back-btn">
                     <i class="fa fa-arrow-left"></i>
-<!--                    {{ $t('backToNewsList') }}-->
-                    {{ newsDetail.title }}
+                    {{ $t('backToNewsList') }}
                   </NuxtLinkLocale>
                 </div>
               </article>
@@ -137,8 +136,8 @@
 </template>
 
 <script setup>
-import {ref, computed, onMounted, watch} from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import {computed, onMounted, ref, watch} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
 
 // 国际化
 const { t } = useI18n()
@@ -221,6 +220,120 @@ watch(
     },
     { immediate: true }
 )
+
+// 设置SEO元数据
+useHead({
+  // 标题 - 优先使用新闻标题，否则使用默认标题
+  title: computed(() => {
+    return newsDetail.value?.title
+        ? `${newsDetail.value.title} | ${t('news.title')}`
+        : t('news.defaultTitle')
+  }),
+
+  // 元描述
+  meta: [
+    {
+      name: 'description',
+      content: computed(() => {
+        // 使用新闻摘要作为描述，如果没有则使用默认描述
+        if (newsDetail.value?.summary) {
+          // 确保描述不超过160个字符
+          return newsDetail.value.summary.substring(0, 160)
+        }
+        return 'TITAN Recyclingsystems-Metal Recycling Technologies'
+      })
+    },
+    {
+      name: 'keywords',
+      content: computed(() => {
+        // 提取新闻标签作为关键词
+        if (newsDetail.value?.keywords ) {
+          return newsDetail.value.keywords
+        }
+        return 'TITAN Recyclingsystems-Metal Recycling Technologies'
+      })
+    },
+    //  canonical URL - 规范链接，避免重复内容问题
+    {
+      rel: 'canonical',
+      href: computed(() => {
+        return `${window.location.origin}${route.fullPath}`
+      })
+    },
+    // Open Graph 元数据（用于社交媒体分享）
+    { property: 'og:title', content: computed(() => newsDetail.value?.title || t('news.defaultTitle')) },
+    { property: 'og:type', content: 'article' },
+    {
+      property: 'og:url',
+      content: computed(() => `${window.location.origin}${route.fullPath}`)
+    },
+    {
+      property: 'og:image',
+      content: computed(() => {
+        // 使用新闻图片作为分享图片
+        return newsDetail.value?.imageUrl || '/images/news/n1.png'
+      })
+    },
+    {
+      property: 'og:description',
+      content: computed(() => {
+        return newsDetail.value?.summary
+            ? newsDetail.value.summary.substring(0, 160)
+            : 'TITAN Recyclingsystems-Metal Recycling Technologies'
+      })
+    },
+    { property: 'og:locale', content: currentLang },
+    // Twitter 卡片元数据
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: computed(() => newsDetail.value?.title || t('news.defaultTitle')) },
+    {
+      name: 'twitter:description',
+      content: computed(() => {
+        return newsDetail.value?.summary
+            ? newsDetail.value.summary.substring(0, 160)
+            : 'TITAN Recyclingsystems-Metal Recycling Technologies'
+      })
+    },
+    {
+      name: 'twitter:image',
+      content: computed(() => {
+        return newsDetail.value?.imageUrl || '/images/news/n1.png'
+      })
+    }
+  ],
+
+  // 文章结构化数据 - 帮助搜索引擎理解内容
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: computed(() => {
+        if (!newsDetail.value) return '{}'
+
+        return JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "NewsArticle",
+          "headline": newsDetail.value.title,
+          "image": [newsDetail.value.imageUrl || '/images/news/n1.png'],
+          "datePublished": newsDetail.value.publishedAt,
+          "dateModified": newsDetail.value.updatedAt || newsDetail.value.publishedAt,
+          "author": [{
+            "@type": "Person",
+            "name": newsDetail.value.author || 'TITAN'
+          }],
+          "publisher": {
+            "@type": "Organization",
+            "name": t('site.name'),
+            "logo": {
+              "@type": "ImageObject",
+              "url": "/favicon.ico" // 替换为你的网站logo
+            }
+          },
+          "description": newsDetail.value.summary || 'TITAN Recyclingsystems-Metal Recycling Technologies'
+        })
+      })
+    }
+  ]
+})
 </script>
 
 <style  scoped>

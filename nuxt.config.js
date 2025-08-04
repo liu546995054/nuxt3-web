@@ -157,17 +157,6 @@ export default defineNuxtConfig({
     }
   },
 
-  // routeRules: {
-  //   // 匹配所有语言的新闻详情页（支持多语言路由）
-  //   '/**/news/[id]': {
-  //     isr: 3600 // 缓存 1 小时（3600 秒），过期后访问会触发重新生成
-  //   },
-  //   // 若有默认语言路由（无 locale 前缀），单独匹配
-  //   '/news/[id]': {
-  //     isr: 3600
-  //   }
-  // },
-
   vite: {
     build: {
       assetsInlineLimit: 4096, // 小于4KB的文件转为base64
