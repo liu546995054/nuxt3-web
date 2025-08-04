@@ -160,7 +160,7 @@ export default defineNuxtConfig({
     cssCodeSplit: false,
     define: {
       // 将 publicAssetsURL 替换为 Nuxt 资源路径
-      'publicAssetsURL': 'new URL("/", import.meta.url).href'
+      'publicAssetsURL': '/'
     }
   }
 
