@@ -19,6 +19,9 @@ export default defineNuxtConfig({
     buildAssetsDir: '/_nuxt/',  // Vercel默认路径
     baseURL: '/',
     head: {
+      meta: [
+        { name: 'robots', content: 'index, follow' } // 明确允许收录和跟踪链接
+      ],
       link: [
       ],
       script: [
@@ -90,7 +93,7 @@ export default defineNuxtConfig({
       alwaysRedirect: false
     },
     seo: true, // 启用SEO优化
-    baseUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://web.prowebbuilding.com/',
+    baseUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://web.prowebbuilding.com/',
     // 5. 路由行为修正（关键）
     customRoutes: 'config',
 
@@ -101,8 +104,10 @@ export default defineNuxtConfig({
   // 机器人协议配置
   robots: {
     UserAgent: '*',
+    // 允许所有路径抓取（核心修正）
     Allow: '/',
-    Sitemap: `${process.env.NUXT_PUBLIC_SITE_URL || 'http://web.prowebbuilding.com/'}/sitemap.xml`
+    // 确保Sitemap地址可访问（必须实际存在）
+    Sitemap: 'https://web.prowebbuilding.com/sitemap.xml'
   },
 
   // 路由配置
@@ -135,6 +140,12 @@ export default defineNuxtConfig({
     prerender: {
       routes: getPrerenderRoutes()
     },
+    // 对所有页面添加允许收录的响应头
+    '/**': {
+      headers: {
+        'X-Robots-Tag': 'index, follow'
+      }
+    },
     routeRules: {
       // 匹配所有语言的新闻详情页（ISR 缓存 1 小时）
       '/**/news/[id]': {
@@ -142,7 +153,11 @@ export default defineNuxtConfig({
         cache: {
           swr: true,
           maxAge: 3600,
-          staleMaxAge: 0 // 禁用旧缓存
+          staleMaxAge: 0 ,// 禁用旧缓存
+
+        },
+        headers: {
+          'X-Robots-Tag': 'index, follow'
         }
       },
       // 默认语言路由（无前缀）
