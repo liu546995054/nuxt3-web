@@ -1,40 +1,25 @@
 import {getPrerenderRoutes} from "./scripts/generate-routes.js";
 
-console.log('ppppppppp',process.env.NUXT_PUBLIC_SITE_URL)
 export default defineNuxtConfig({
   // 开启SSG模式配置
   ssr: true,
   // target: 'static',
   css: [
-    '/css/style.css',
-    '/css/contact-form-7-css.css',
-    '/css/math-captcha-frontend-css.css',
-    '/css/zwebs-theme-css.css',
-    '/css/custom-style-css.css',
-    '/css/font-awesome.css',
-    '/css/jquery.fancybox.css',
-    '/css/swiper.css'
+    '~/assets/css/style.css',
+    '~/assets/css/contact-form-7-css.css',
+    '~/assets/css/math-captcha-frontend-css.css',
+    '~/assets/css/zwebs-theme-css.css',
+    '~/assets/css/custom-style-css.css',
+    '~/assets/css/font-awesome.css',
+    '~/assets/css/jquery.fancybox.css',
+    '~/assets/css/swiper.css'
   ],
 
   app: {
+    buildAssetsDir: '/_nuxt/',  // Vercel默认路径
+    baseURL: '/',
     head: {
       link: [
-        // 本地样式
-        // { rel: 'stylesheet', href: '/css/style.min.css' },
-        // { rel: 'stylesheet', href: '/css/contact-form-7-css.css' },
-        // { rel: 'stylesheet', href: '/css/math-captcha-frontend-css.css' },
-        // { rel: 'stylesheet', href: '/css/zwebs-theme-css.css' },
-        // { rel: 'stylesheet', href: '/css/custom-style-css.css' },
-        // { rel: 'stylesheet', href: '/css/font-awesome.min.css' },
-        // { rel: 'stylesheet', href: '/css/jquery.fancybox.min.css' },
-        // { rel: 'stylesheet', href: '/css/swiper.min.css' },
-        // // CDN资源
-        // {
-        //   rel: 'stylesheet',
-        //   href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-        //   integrity: 'sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==',
-        //   crossorigin: 'anonymous'
-        // }
       ],
       script: [
         // jQuery必须同步加载（defer: false）
@@ -52,13 +37,16 @@ export default defineNuxtConfig({
   // 构建配置
   build: {
     // 生产环境移除console
-    terser: {
-      terserOptions: {
-        compress: {
-          drop_console: process.env.NODE_ENV === 'production'
-        }
-      }
-    },
+    // terser: {
+    //   terserOptions: {
+    //     compress: {
+    //       drop_console: process.env.NODE_ENV === 'production'
+    //     }
+    //   }
+    // },
+    transpile: [
+      '@fortawesome/fontawesome-free' // 如果使用FontAwesome
+    ],
 
     // 开发环境sourcemap
     devtools: { enabled: true }
@@ -72,6 +60,9 @@ export default defineNuxtConfig({
 
   // 多语言配置
   i18n: {
+    bundle: {
+      optimizeTranslationDirective: false // 明确设置为 false
+    },
     locales: [
       {
         code: 'en',
@@ -139,30 +130,63 @@ export default defineNuxtConfig({
 
   // SSG预渲染路由
   nitro: {
+    compatibilityDate: '2025-08-03', // 使用警告推荐的日期
     preset: 'vercel-static',
     prerender: {
       routes: getPrerenderRoutes()
+    },
+    routeRules: {
+      // 匹配所有语言的新闻详情页（ISR 缓存 1 小时）
+      '/**/news/[id]': {
+        isr: 3600,
+        cache: {
+          swr: true,
+          maxAge: 3600,
+          staleMaxAge: 0 // 禁用旧缓存
+        }
+      },
+      // 默认语言路由（无前缀）
+      '/news/[id]': {
+        isr: 3600,
+        cache: { swr: true, maxAge: 3600 }
+      },
+      // 缓存 API 接口（避免重复请求）
+      'https://cloud-note-1256263900.cos.ap-nanjing.myqcloud.com/news.json': {
+        cache: { swr: true, maxAge: 60 } // 短缓存，确保数据及时更新
+      }
     }
   },
 
+  // routeRules: {
+  //   // 匹配所有语言的新闻详情页（支持多语言路由）
+  //   '/**/news/[id]': {
+  //     isr: 3600 // 缓存 1 小时（3600 秒），过期后访问会触发重新生成
+  //   },
+  //   // 若有默认语言路由（无 locale 前缀），单独匹配
+  //   '/news/[id]': {
+  //     isr: 3600
+  //   }
+  // },
+
   vite: {
     build: {
+      assetsInlineLimit: 4096, // 小于4KB的文件转为base64
       rollupOptions: {
         output: {
-          // 明确资产文件名格式，避免解析异常
-          assetFileNames: 'assets/[name]-[hash].[ext]',
-          chunkFileNames: 'js/[name]-[hash].js',
-          entryFileNames: 'js/[name]-[hash].js'
+          assetFileNames: (assetInfo) => {
+            if (/\.(woff2?|ttf|eot|svg)$/.test(assetInfo.name)) {
+              return '_nuxt/fonts/[name]-[hash][extname]'  // 字体特殊路径
+            }
+            return '_nuxt/assets/[name]-[hash][extname]'
+          }
         }
       }
     },
     // 禁用 CSS 代码分割（临时排查是否为此问题）
     cssCodeSplit: false,
-    define: {
-      // 将 publicAssetsURL 替换为 Nuxt 资源路径
-      'publicAssetsURL': '/'
-    }
-  }
+  },
+
+
 
 
 

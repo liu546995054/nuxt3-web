@@ -63,7 +63,7 @@
                   <div class="news-meta">
                     <span class="date">
                       <i class="fa fa-clock-o"></i>
-                      {{ formatDate(newsDetail.publishedAt) }}
+<!--                      {{ formatDate(newsDetail.publishedAt) }}-->
                     </span>
                     <span class="category" v-if="newsDetail.category">
                       <i class="fa fa-folder-open-o"></i>
@@ -92,14 +92,14 @@
                 </div>
 
                 <!-- 标签 -->
-                <div class="news-tags" v-if="newsDetail.tags && newsDetail.tags.length">
-                  <span class="tags-label">{{ $t('tags') }}:</span>
-                  <ul>
-                    <li v-for="tag in newsDetail.tags" :key="tag.id">
-                      <NuxtLinkLocale :to="`/news?tag=${tag.slug}`" class="tag-item">{{ tag.name }}</NuxtLinkLocale>
-                    </li>
-                  </ul>
-                </div>
+<!--                <div class="news-tags" v-if="newsDetail.tags && newsDetail.tags.length">-->
+<!--                  <span class="tags-label">{{ $t('tags') }}:</span>-->
+<!--                  <ul>-->
+<!--                    <li v-for="tag in newsDetail.tags" :key="tag.id">-->
+<!--                      <NuxtLinkLocale :to="`/news?tag=${tag.slug}`" class="tag-item">{{ tag.name }}</NuxtLinkLocale>-->
+<!--                    </li>-->
+<!--                  </ul>-->
+<!--                </div>-->
 
                 <!-- 上下篇导航 -->
                 <div class="news-navigation" v-if="prevNews || nextNews">
@@ -121,7 +121,8 @@
                 <div class="back-to-list">
                   <NuxtLinkLocale to="/news/news" class="back-btn">
                     <i class="fa fa-arrow-left"></i>
-                    {{ $t('backToNewsList') }}
+<!--                    {{ $t('backToNewsList') }}-->
+                    {{ newsDetail.title }}
                   </NuxtLinkLocale>
                 </div>
               </article>
@@ -145,65 +146,10 @@ const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 
+
+
 // 状态管理
 const newsDetail = ref({})
-const enNewsDetail = ref({
-  "id": 1,
-  "title": "English",
-  "slug": "news-title-slug",
-  "imageUrl": "/images/news/n1.png",
-  "imageAlt": "English",
-  "imageCaption": "English",
-  "publishedAt": "2024-02-11T10:30:00Z",
-  "category": "English",
-  "excerpt": "English",
-  "content": "<p>English...</p>",
-  "tags": [
-    {
-      "id": 1,
-      "name": "English",
-      "slug": "tag-1"
-    }
-  ]
-})
-const espNewsDetail = ref({
-  "id": 1,
-  "title": "esp",
-  "slug": "news-title-slug",
-  "imageUrl": "/images/news/n1.png",
-  "imageAlt": "esp",
-  "imageCaption": "esp",
-  "publishedAt": "2024-02-11T10:30:00Z",
-  "category": "esp",
-  "excerpt": "esp",
-  "content": "<p>esp...</p>",
-  "tags": [
-    {
-      "id": 1,
-      "name": "esp",
-      "slug": "tag-1"
-    }
-  ]
-})
-const ruNewsDetail = ref({
-  "id": 1,
-  "title": "ru",
-  "slug": "news-title-slug",
-  "imageUrl": "/images/news/n1.png",
-  "imageAlt": "ru",
-  "imageCaption": "ru",
-  "publishedAt": "2024-02-11T10:30:00Z",
-  "category": "ru",
-  "excerpt": "ru",
-  "content": "<p>ru...</p>",
-  "tags": [
-    {
-      "id": 1,
-      "name": "ru",
-      "slug": "tag-1"
-    }
-  ]
-})
 const prevNews = ref(null) // 上一篇
 const nextNews = ref(null) // 下一篇
 const isLoading = ref(true)
@@ -212,63 +158,44 @@ const langCookie = useCookie('i18n_redirected') // 获取语言 Cookie
 const currentLang = langCookie.value || 'en' // 优先用 Cookie，否则默认 'en'
 // 背景图计算属性（与列表页保持一致）
 const backgroundImage = computed(() => {
-  return `/images/news/bg1-${route.params.locale || 'en'}.jpg` || '/images/news/bg1.jpg'
+  return '/images/news/bg1.jpg'
 })
 
-// 获取新闻详情数据
-const fetchNewsDetail = async (type) => {
-  // isLoading.value = true
-  // error.value = null
-  try {
-    console.log('kkkkkkkk',type)
-    // const { slug, locale } = route.params
-    // 构建API地址（包含语言和新闻slug）
-    // const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/news/${slug}?lang=${locale || 'en'}`
+// 移除原有的 fetchNewsDetail 函数，改用 useAsyncData 在组件初始化时获取数据
+const { data, refresh, error: fetchError } = await useAsyncData(
+    // 唯一缓存键（结合语言和新闻slug，确保不同新闻/语言的缓存独立）
+    `news-detail-${currentLang}-${route.params.id}`,
+    async () => {
+      const { id } = route.params;
+      // 构建API地址（包含语言和新闻slug）
+      // const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/news/${slug}?lang=${locale || 'en'}`;
+      const apiUrl = `https://cloud-note-1256263900.cos.ap-nanjing.myqcloud.com/news.json`;
 
-    // const response = await fetch(apiUrl)
-    // if (!response.ok) {
-    //   if (response.status === 404) {
-    //     // 404跳转
-    //     router.push(`/${locale || 'en'}/404`)
-    //     return
-    //   }
-    //   throw new Error(t('error.networkError'))
-    // }
+      const response = await fetch(apiUrl);
 
-    // const data = await response.json()
-    // newsDetail.value = data.detail
-    // prevNews.value = data.prev
-    // nextNews.value = data.next
+      if (!response.ok) {
+        // 处理404或其他错误（例如跳转到404页面）
+        if (response.status === 404) {
+          throw createError({ statusCode: 404, statusMessage: 'News not found' });
+        }
+        throw createError({ statusCode: response.status, statusMessage: 'Failed to fetch news' });
+      }
 
-    if (type === 'en') {
-      newsDetail.value = enNewsDetail.value
-    } else if (type === 'esp') {
-      newsDetail.value = espNewsDetail.value
-    } else if (type === 'ru') {
-      newsDetail.value = ruNewsDetail.value
-    } else {
-      newsDetail.value = enNewsDetail.value
+      const data = await response.json();
+      return {
+        detail: data.news.filter(v=>v.original_id == id && v.lang === currentLang)[0],
+        prev: data.prev,
+        next: data.next
+      };
+    },
+    {
+      // ISR 缓存配置（可选，可覆盖 nuxt.config 中的全局设置）
+      revalidate: 3600, // 缓存1小时（单位：秒），与 nuxt.config 中的 isr 配置一致
     }
+);
 
-    // 设置SEO信息
-    // usePageSeo({
-    //   title: `${newsDetail.value.title} - ${t('menu.news')}`,
-    //   description: newsDetail.value.excerpt || t('seo.newsDescription'),
-    //   canonical: `/news/${newsDetail.value.slug}`,
-    //   og: {
-    //     type: 'article',
-    //     title: newsDetail.value.title,
-    //     description: newsDetail.value.excerpt || t('seo.newsDescription'),
-    //     image: newsDetail.value.imageUrl
-    //   }
-    // })
-  } catch (err) {
-    error.value = err
-    console.error('Failed to fetch news detail:', err)
-  } finally {
-    isLoading.value = false
-  }
-}
+
+newsDetail.value = data.value.detail
 
 // 日期格式化（适配当前语言）
 const formatDate = (dateString) => {
@@ -290,8 +217,7 @@ onMounted(() => {
 watch(
     () => route.params.locale,
     () => {
-      console.log('oooooooooooooo')
-      fetchNewsDetail(currentLang)
+      refresh();
     },
     { immediate: true }
 )

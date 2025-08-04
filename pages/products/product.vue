@@ -51,7 +51,7 @@
                         data-aos-delay="50">
                   <div class="item-grid-box">
                     <NuxtLinkLocale to="/products/baling-press">
-                      <a href="javascript:void(0)" title="Y81 Series Scrap Metal Baling Machine">
+                      <figure title="Y81 Series Scrap Metal Baling Machine">
                         <div class="item-cover">
                           <div class="attachment">
                             <div class="thumbnail">
@@ -69,7 +69,7 @@
                         <figcaption>
                           <h3>{{ $t('products_content.desc[3]') }}</h3>
                         </figcaption>
-                      </a>
+                      </figure>
                     </NuxtLinkLocale>
                   </div>
                 </figure>
@@ -77,7 +77,7 @@
                         data-aos-delay="50">
                   <div class="item-grid-box">
                     <NuxtLinkLocale to="/products/briquetting-press">
-                      <a href="javascript:void(0)" title="Y83 series scrap chips briquetting press">
+                      <figure  title="Y83 series scrap chips briquetting press">
                         <div class="item-cover">
                           <div class="attachment">
                             <div class="thumbnail">
@@ -96,7 +96,7 @@
                         <figcaption>
                           <h3>{{ $t('products_content.desc[4]') }}</h3>
                         </figcaption>
-                      </a>
+                      </figure>
                     </NuxtLinkLocale>
 
 
@@ -107,7 +107,7 @@
                   <div class="item-grid-box">
 
                     <NuxtLinkLocale to="/products/scrap-shear">
-                      <a href="javascript:void(0)" title="Q series scrap metal shear machine">
+                      <figure title="Q series scrap metal shear machine">
                         <div class="item-cover">
                           <div class="attachment">
                             <div class="thumbnail">
@@ -125,7 +125,7 @@
                         <figcaption>
                           <h3>{{ $t('products_content.desc[5]') }}</h3>
                         </figcaption>
-                      </a>
+                      </figure>
                     </NuxtLinkLocale>
 
 
@@ -138,7 +138,7 @@
                   <div class="item-grid-box">
 
                     <NuxtLinkLocale to="/products/scrap-shredder">
-                      <a href="javascript:void(0)"  title="T series scrap metal shredder">
+                      <figure   title="T series scrap metal shredder">
                         <div class="item-cover">
                           <div class="attachment">
                             <div class="thumbnail">
@@ -156,7 +156,7 @@
                         <figcaption>
                           <h3>{{ $t('products_content.desc[6]') }}</h3>
                         </figcaption>
-                      </a>
+                      </figure>
                     </NuxtLinkLocale>
 
 

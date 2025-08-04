@@ -42,7 +42,7 @@
                 <div class="item-grid-box" >
                   <NuxtLinkLocale :to="product.link">
 
-                    <div class="item-cover">
+                    <figure class="item-cover">
                       <div class="attachment">
                         <div class="thumbnail">
                           <div class="centered">
@@ -55,7 +55,7 @@
                         </div>
                       </div>
                       <i class="mask"></i>
-                    </div>
+                    </figure>
                     <figcaption>
                       <h3>{{ product.title }}</h3>
                     </figcaption>

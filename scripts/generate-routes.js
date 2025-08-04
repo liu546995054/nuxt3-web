@@ -24,6 +24,8 @@ export function getPrerenderRoutes() {
     ];
     // 服务路由
     const services = ['service'];
+    //新闻
+    const news = ['news'];
 
     locales.forEach(locale => {
         // 静态页面：默认语言（en）无前缀，其他语言有前缀
@@ -61,6 +63,14 @@ export function getPrerenderRoutes() {
                 routes.push(`/service/${service}`); // en: /service/xxx
             } else {
                 routes.push(`/${locale}/service/${service}`); // 其他: /esp/service/xxx
+            }
+        });
+        // 服务路由：默认语言无前缀
+        news.forEach(service => {
+            if (locale === defaultLocale) {
+                routes.push(`/news/${service}`); // en: /service/xxx
+            } else {
+                routes.push(`/${locale}/news/${service}`); // 其他: /esp/service/xxx
             }
         });
     });
