@@ -78,9 +78,6 @@
                                   {{ news.date }}
                                 </span>
                               </div>
-                              <div class="opacity excerpt-content">
-                                {{ news.excerpt }}
-                              </div>
                               <div class="link-read-more">
                                 <NuxtLinkLocale :to="`/news/${news.original_id}`">
                                   <span>{{ $t('news.readMore') }}</span>
@@ -97,30 +94,6 @@
                 </section>
               </div>
 
-              <!-- 分页组件 -->
-              <div v-if="showPagination" id="pages" class="pagination">
-                <button
-                    @click="changePage(currentPage - 1)"
-                    :disabled="currentPage === 1"
-                    class="page-btn prev"
-                >
-                  <i class="fa fa-angle-left"></i>
-                  {{ $t('pagination.prev') }}
-                </button>
-
-                <span class="page-info">
-                  {{ $t('pagination.page') }} {{ currentPage }} {{ $t('pagination.of') }} {{ totalPages }}
-                </span>
-
-                <button
-                    @click="changePage(currentPage + 1)"
-                    :disabled="currentPage === totalPages"
-                    class="page-btn next"
-                >
-                  {{ $t('pagination.next') }}
-                  <i class="fa fa-angle-right"></i>
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -156,8 +129,6 @@ const paginatedNews = computed(() => {
   const end = start + itemsPerPage.value
   return newsList.value.slice(start, end)
 })
-const showEmptyState = computed(() => newsList.value.length === 0)
-const showPagination = computed(() => totalPages.value > 1)
 
 
 // 获取新闻数据

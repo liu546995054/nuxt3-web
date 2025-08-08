@@ -209,7 +209,10 @@
   },
   "news": {
     "noNews": "noNews",
-    "readMore": "readMore"
+    "readMore": "readMore",
+    "publishTime": "Publish Time",
+    "visited": "Visited",
+    "visitedTimes": "Times"
   },
   "contact": {
     "company_name": "JIANGYIN TITAN MACHINERY EQUIPMENT CO., LTD",

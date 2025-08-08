@@ -32,7 +32,7 @@
     "service": "Servicio",
     "contact": "Contacto",
     "email": "E-mail",
-    "news": "espNews"
+    "news": "Noticias"
   },
   "footer": {
     "quick_links": "Enlaces rápidos",
@@ -206,6 +206,13 @@
     "company_name": "JIANGYIN TITAN MACHINERY EQUIPMENT CO., LTD",
     "slogan": "¡ESPERAMOS VERTE CADA VEZ!",
     "description": "TITAN Recycling Machinery se fundó en 2013 en la ciudad de Jiangyin, provincia de Jiangsu, China, a unos 200 km de la ciudad de Shanghái. A orillas del río Yangtsé, TITAN lleva más de 12 años desarrollándose y ha instalado y prestado servicio con éxito a más de 1000 máquinas y equipos tanto en el mercado nacional como en los mercados internacionales de todo el mundo. Dedicada a la protección del medio ambiente y al reciclaje de recursos, TITAN se ha convertido en un fabricante profesional y líder en sistemas y soluciones de eliminación de residuos sólidos. Con tecnología avanzada y sofisticados equipos de mecanizado, TITAN ha contribuido a las industrias de reciclaje con máquinas empacadoras de chatarra, prensas briquetadoras de virutas de chatarra, cizallas para chatarra (incluidas cizallas de cocodrilo y cizallas guillotina), trituradoras de chatarra (tipo cuchilla y tipo molino de martillos) y TITAN también ofrece otros diseños y servicios no estándar según las solicitudes específicas del cliente."
+  },
+  "news": {
+    "noNews": "sin noticias",
+    "readMore": "leer más",
+    "publishTime": "hora de publicación",
+    "visited": "visita",
+    "visitedTimes": "vez"
   },
   "contact": {
     "company_name": "JIANGYIN TITAN MACHINERY EQUIPMENT CO., LTD",

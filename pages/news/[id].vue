@@ -21,11 +21,6 @@
               </NuxtLinkLocale>
               <meta itemprop="position" content="2" />
             </li>
-            <i class="delimiter"></i>
-            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-              <span itemprop="name">{{ newsDetail.title }}</span>
-              <meta itemprop="position" content="3" />
-            </li>
           </ol>
         </div>
       </div>
@@ -33,102 +28,23 @@
 
     <!-- 主内容区 -->
     <main>
-      <div class="container container-product">
-        <div class="inner wrapper-content">
-          <div class="column-fluid">
-            <div class="content fullwidth">
-              <!-- 加载状态 -->
-<!--              <div v-if="isLoading" class="loading-state">-->
-<!--                <div class="spinner"></div>-->
-<!--                <p>{{ $t('loading') }}</p>-->
-<!--              </div>-->
-
-<!--              &lt;!&ndash; 错误状态 &ndash;&gt;-->
-<!--              <div v-else-if="error" class="error-state">-->
-<!--                <p>{{ $t('error.loadFailed') }}: {{ error.message }}</p>-->
-<!--                <button @click="fetchNewsDetail" class="retry-btn">{{ $t('error.retry') }}</button>-->
-<!--                <NuxtLinkLocale to="/news/news" class="back-link">{{ $t('backToNewsList') }}</NuxtLinkLocale>-->
-<!--              </div>-->
-
-              <!-- 新闻详情内容 -->
-              <article  class="news-detail" itemprop="article" itemscope itemtype="https://schema.org/Article">
-                <meta itemprop="author" content="Your Company Name">
-                <meta itemprop="publisher" content="Your Company Name">
-                <meta itemprop="datePublished" :content="newsDetail.publishedAt">
-
-                <!-- 新闻标题区 -->
-                <header class="news-header">
-                  <h1 itemprop="headline" class="news-title">{{ newsDetail.title }}</h1>
-
-                  <div class="news-meta">
-                    <span class="date">
-                      <i class="fa fa-clock-o"></i>
-<!--                      {{ formatDate(newsDetail.publishedAt) }}-->
-                    </span>
-                    <span class="category" v-if="newsDetail.category">
-                      <i class="fa fa-folder-open-o"></i>
-                      {{ newsDetail.category }}
-                    </span>
-                  </div>
-                </header>
-
-                <!-- 新闻主图 -->
-                <figure class="news-featured-image" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
-                  <img
-                      :src="newsDetail.imageUrl"
-                      :alt="newsDetail.imageAlt || newsDetail.title"
-                      class="featured-img"
-                      loading="eager"
-                      itemprop="url"
-                  >
-                  <meta itemprop="width" content="1200">
-                  <meta itemprop="height" content="630">
-                  <figcaption v-if="newsDetail.imageCaption" itemprop="caption">{{ newsDetail.imageCaption }}</figcaption>
-                </figure>
-
-                <!-- 新闻内容 -->
-                <div class="news-content" itemprop="articleBody">
-                  <div v-html="newsDetail.content"></div>
-                </div>
-
-                <!-- 标签 -->
-<!--                <div class="news-tags" v-if="newsDetail.tags && newsDetail.tags.length">-->
-<!--                  <span class="tags-label">{{ $t('tags') }}:</span>-->
-<!--                  <ul>-->
-<!--                    <li v-for="tag in newsDetail.tags" :key="tag.id">-->
-<!--                      <NuxtLinkLocale :to="`/news?tag=${tag.slug}`" class="tag-item">{{ tag.name }}</NuxtLinkLocale>-->
-<!--                    </li>-->
-<!--                  </ul>-->
-<!--                </div>-->
-
-                <!-- 上下篇导航 -->
-                <div class="news-navigation" v-if="prevNews || nextNews">
-                  <div class="prev-news" v-if="prevNews">
-                    <span class="nav-label">{{ $t('previousNews') }}:</span>
-                    <NuxtLinkLocale :to="`/news/${prevNews.slug}`" class="nav-link">
-                      {{ prevNews.title }}
-                    </NuxtLinkLocale>
-                  </div>
-                  <div class="next-news" v-if="nextNews">
-                    <span class="nav-label">{{ $t('nextNews') }}:</span>
-                    <NuxtLinkLocale :to="`/news/${nextNews.slug}`" class="nav-link">
-                      {{ nextNews.title }}
-                    </NuxtLinkLocale>
-                  </div>
-                </div>
-
-                <!-- 返回列表按钮 -->
-                <div class="back-to-list">
-                  <NuxtLinkLocale to="/news/news" class="back-btn">
-                    <i class="fa fa-arrow-left"></i>
-                    {{ $t('backToNewsList') }}
-                  </NuxtLinkLocale>
-                </div>
-              </article>
+      <div class="container container-news">
+        <div class="inner wrapper-content new-content">
+          <div class="nynews-head" id="news-contents-head">
+            <h1>{{newsDetail.title}}</h1>
+            <div class="info">
+              <span>{{$t('menu.news') }}</span>
+              <span>{{$t('news.publishTime') }}: {{newsDetail.date}} </span>
+              <span>{{$t('news.visited') }}: 2113 {{$t('news.visitedTimes') }}</span>
             </div>
+          </div>
+          <div class="nynews-boxarc arccontent maximg" id="news-contents" v-html="newsDetail.content">
           </div>
         </div>
       </div>
+
+
+
     </main>
 
     <Footer />

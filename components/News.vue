@@ -6,24 +6,21 @@
         <h2 class="heading-title"><b>
           <NuxtLinkLocale to="/contact">
             <a href="javascript:void(0)"><span class="menu-title">{{ $t('footer.news') }}</span></a>
-<!--            <span>{{ $t('menu.contact') }}</span>-->
           </NuxtLinkLocale>
-
         </b>
         </h2>
 
         <div class="section-content">
           <ul class="thumb-title-list" id="news-index-page">
 
-            <li data-aos="fade-up" v-for="(item, index) in newsItems" :key="index">
-<!--              <NuxtLinkLocale :to="item.link">-->
-
+            <li data-aos="fade-up" v-for="(item, index) in newsList" :key="index">
                 <figure class="post-thumbnail">
+                  <NuxtLinkLocale :to="`/news/${item.original_id }`">
                     <div class="item-cover">
                       <div class="attachment">
                         <div class="thumbnail">
                           <div class="centered">
-                            <img width="300" height="248" :src="item.image"
+                            <img width="300" height="248" :src="item.imageUrl"
                                  alt="On the role of metal chip press in the recycling of metal chips"
                                  class="attachment-medium size-medium wp-post-image"
                                  loading="lazy">
@@ -32,23 +29,26 @@
                       </div>
                       <i class="mask"></i>
                     </div>
+                  </NuxtLinkLocale>
                 </figure>
                 <div class="post-excerpt">
                   <h3>{{item.title}}</h3>
                   <div class="post-meta">
                     <span class="date"><i class="fa fa-clock-o"></i>{{item.date}}</span>
                     <span class="cat"><i class="fa fa-folder-open-o"></i>
-<!--                      <a href="#News.html" rel="category tag">News</a>-->
                     </span>
                   </div>
-                  <div class="opacity excerpt-content">{{item.excerpt}}
-                  </div>
+
                   <div class="link-read-more">
-<!--                    <a href="/new01.html"><span>Read more</span> <i-->
-<!--                        class="fa fa-angle-right"></i></a>-->
+                    <NuxtLinkLocale :to="`/news/${item.original_id}`">
+                      <span>
+                        <span>{{$t('news.readMore')}}</span>
+                        <i class="fa fa-angle-right"></i>
+                      </span>
+                    </NuxtLinkLocale>
+
                   </div>
                 </div>
-<!--              </NuxtLinkLocale>-->
 
             </li>
 
@@ -63,126 +63,99 @@
 </template>
 
 <script setup>
-const newsItems = [
-  {
-    title: 'On the role of metal chip press in the recycling of metal chips',
-    date: 'Feb 11, 2024',
-    category: 'News',
-    excerpt: 'The chip pressing machine is a chip processing equipment that many metal product factories will configure…',
-    image: '/images/news/n1.png',
-    link: '/news/new01'
-  },
-  {
-    title: 'Common fault analysis and solutions of shear',
-    date: 'Feb 12, 2024',
-    category: 'News',
-    excerpt: 'In daily life, no matter how good the equipment is, if there is no good sense of repair and maintenance…',
-    image: '/images/news/n2.png',
-    link: '/news/new02'
-  },
-  {
-    title: 'What is scrap metal packer',
-    date: 'Feb 13, 2024',
-    category: 'News',
-    excerpt: 'It is mainly used in recycling processing industry and metal smelting industry,…',
-    image: '/images/news/n3.png',
-    link: '/news/new03'
+import { computed, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const route = useRoute()
+
+// 状态管理
+const newsList = ref([])
+const isHydrated = ref(false)
+
+
+
+// 计算属性
+const currentLang = computed(() => useCookie('i18n_redirected').value || 'en')
+
+// 获取新闻数据
+const fetchNews = async (page = 1, lang) => {
+  try {
+    const apiUrl = `https://cloud-note-1256263900.cos.ap-nanjing.myqcloud.com/news.json`;
+
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) {
+      // 处理404或其他错误（例如跳转到404页面）
+      if (response.status === 404) {
+        throw createError({ statusCode: 404, statusMessage: 'News not found' });
+      }
+      throw createError({ statusCode: response.status, statusMessage: 'Failed to fetch news' });
+    }
+
+    const data = await response.json();
+
+
+    newsList.value = data.news.filter(v=>v.lang === currentLang.value).slice(0,3)
+    // 关键优化：为列表中的每条新闻预生成ISR缓存
+    await pregenerateISR(newsList, currentLang.value);
+  } catch (err) {
+    console.error('Failed to fetch news:', err)
   }
-]
+}
+
+// 预生成详情页ISR缓存
+const pregenerateISR = async (newsItems, lang) => {
+  if (process.client) return; // 仅在服务端执行
+
+  await Promise.all(
+      newsItems.map(async (news) => {
+        // 处理默认语言路径（en不带前缀）
+        const path = news.lang === 'en'
+            ? `/news/${news.original_id}`  // 默认语言路径
+            : `/${news.lang}/news/${news.original_id}`; // 其他语言路径
+
+        try {
+          await $fetch(path, {
+            headers: { 'x-prerender-revalidate': 'true' },
+            params: { _isr: 1 }
+          });
+          console.log(`预生成ISR: ${path}`);
+        } catch (err) {
+          console.error(`预生成失败 ${path}:`, err);
+        }
+      })
+  );
+};
+
+
+
+
+
+// 初始化
+onMounted(() => {
+  isHydrated.value = true
+  fetchNews(1, currentLang.value)
+})
+
+// 监听语言变化
+watch(currentLang, (newLang) => {
+  if (isHydrated.value) {
+    fetchNews(1, newLang)
+  }
+})
+
+// 监听路由变化
+watch(
+    () => route.params.locale,
+    (newLocale) => {
+      if (newLocale && isHydrated.value) {
+        fetchNews(1, newLocale)
+      }
+    },
+    { immediate: true }
+)
 </script>
 
-<!--<style scoped>-->
-<!--.news {-->
-<!--  padding: 80px 0;-->
-<!--  background-color: #fff;-->
-<!--}-->
 
-<!--.news-grid {-->
-<!--  display: grid;-->
-<!--  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));-->
-<!--  gap: 30px;-->
-<!--}-->
-
-<!--.news-card {-->
-<!--  background: #fff;-->
-<!--  border-radius: 8px;-->
-<!--  overflow: hidden;-->
-<!--  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);-->
-<!--  transition: all 0.3s ease;-->
-<!--}-->
-
-<!--.news-card:hover {-->
-<!--  transform: translateY(-5px);-->
-<!--  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);-->
-<!--}-->
-
-<!--.news-image {-->
-<!--  height: 200px;-->
-<!--  overflow: hidden;-->
-<!--}-->
-
-<!--.news-image img {-->
-<!--  width: 100%;-->
-<!--  height: 100%;-->
-<!--  object-fit: cover;-->
-<!--  transition: transform 0.5s ease;-->
-<!--}-->
-
-<!--.news-card:hover .news-image img {-->
-<!--  transform: scale(1.05);-->
-<!--}-->
-
-<!--.news-content {-->
-<!--  padding: 25px;-->
-<!--}-->
-
-<!--.news-content h3 {-->
-<!--  font-size: 1.3rem;-->
-<!--  color: #0d3b66;-->
-<!--  margin-bottom: 15px;-->
-<!--}-->
-
-<!--.news-meta {-->
-<!--  display: flex;-->
-<!--  margin-bottom: 15px;-->
-<!--  font-size: 0.9rem;-->
-<!--  color: #666;-->
-<!--}-->
-
-<!--.news-meta span {-->
-<!--  margin-right: 20px;-->
-<!--  display: flex;-->
-<!--  align-items: center;-->
-<!--}-->
-
-<!--.news-meta i {-->
-<!--  margin-right: 5px;-->
-<!--}-->
-
-<!--.excerpt {-->
-<!--  color: #666;-->
-<!--  line-height: 1.6;-->
-<!--  margin-bottom: 20px;-->
-<!--}-->
-
-<!--.read-more {-->
-<!--  display: inline-flex;-->
-<!--  align-items: center;-->
-<!--  color: #f95738;-->
-<!--  font-weight: 600;-->
-<!--  transition: all 0.3s;-->
-<!--}-->
-
-<!--.read-more i {-->
-<!--  margin-left: 5px;-->
-<!--  transition: transform 0.3s;-->
-<!--}-->
-
-<!--.news-card:hover .read-more {-->
-<!--  color: #e04a2d;-->
-<!--}-->
-
-<!--.news-card:hover .read-more i {-->
-<!--  transform: translateX(5px);-->
-<!--}-->
-<!--</style>-->
