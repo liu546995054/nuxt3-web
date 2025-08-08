@@ -167,7 +167,6 @@
 				</span>
       </div>
       <div class="message-form">
-        <p>
 
           <div class="wpcf7">
             <form
@@ -241,7 +240,6 @@
               </p>
             </form>
           </div>
-        </p>
       </div>
     </div>
     <a class="back-to-top ease radius" title="Scroll to top" rel="nofollow">
@@ -263,6 +261,7 @@ const form = ref({
   phone: '',
   message: ''
 })
+
 
 // 提交处理
 const handleSubmit = () => {

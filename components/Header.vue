@@ -191,9 +191,7 @@ const langCookie = useCookie('i18n_redirected', {
  * @param {string} lang - 目标语言代码 (如 'en', 'zh')
  */
 const changeLanguage = async (lang) => {
-  console.log(333333333333333)
   try {
-
 
     if (!route || !router) {
       throw new Error('路由对象未初始化');
@@ -253,9 +251,9 @@ const changeLanguage = async (lang) => {
 };
 
 // 4. 生命周期和路由监听（放在最后）
-onMounted(() => {
-  loadExternalScripts()
-})
+// onMounted(() => {
+//   loadExternalScripts()
+// })
 
 router.afterEach(() => {
   loadExternalScripts()

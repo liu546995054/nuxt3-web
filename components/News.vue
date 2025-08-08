@@ -4,8 +4,8 @@
     <div class="inner">
       <div class="section-container grid-col-3" data-radio="0.75">
         <h2 class="heading-title"><b>
-          <NuxtLinkLocale to="/contact">
-            <a href="javascript:void(0)"><span class="menu-title">{{ $t('footer.news') }}</span></a>
+          <NuxtLinkLocale to="/news/news">
+            <span><span class="menu-title">{{ $t('footer.news') }}</span></span>
           </NuxtLinkLocale>
         </b>
         </h2>

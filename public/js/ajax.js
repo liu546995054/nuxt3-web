@@ -191,7 +191,7 @@ var news = {
                     <span class="label">
                         <i class="fa fa-commenting-o"></i>
                     </span>
-                    <b>Leave a message</b>
+                    <b>Leave a message33</b>
                     <span class="arrow-toggle">
                         <i class="fa fa-angle-up"></i>
                     </span>
@@ -241,7 +241,7 @@ var news = {
                     </p>
                 </div>`)
         jQuery('#tj').click(function () {
-            //alert(1)
+            alert(1)
             if (jQuery('#name').val() == '') { alert('请输入姓名！'); jQuery("#name").focus(); return false; }
             if (jQuery("#tel").val() == "") { alert("请输入手机！"); jQuery("#tel").focus(); return false; }
             if (!jQuery("#tel").val().match(/^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[0-9]{1})|(18[0-9]{1})|(19[0-9]{1}))+\d{8})$/)) { alert("请输入正确的手机号码！"); jQuery("#tel").focus(); return false; }

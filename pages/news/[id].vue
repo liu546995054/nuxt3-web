@@ -170,19 +170,19 @@ useHead({
       })
     },
     //  canonical URL - 规范链接，避免重复内容问题
-    {
-      rel: 'canonical',
-      href: computed(() => {
-        return `${window.location.origin}${route.fullPath}`
-      })
-    },
+    // {
+    //   rel: 'canonical',
+    //   href: computed(() => {
+    //     return `${window.location.origin}${route.fullPath}`
+    //   })
+    // },
     // Open Graph 元数据（用于社交媒体分享）
     { property: 'og:title', content: computed(() => newsDetail.value?.title || t('news.defaultTitle')) },
     { property: 'og:type', content: 'article' },
-    {
-      property: 'og:url',
-      content: computed(() => `${window.location.origin}${route.fullPath}`)
-    },
+    // {
+    //   property: 'og:url',
+    //   content: computed(() => `${window.location.origin}${route.fullPath}`)
+    // },
     {
       property: 'og:image',
       content: computed(() => {
