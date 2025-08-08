@@ -256,6 +256,7 @@ const changeLanguage = async (lang) => {
 // })
 
 router.afterEach(() => {
+  // 触发全局事件，通知路由已切换
   loadExternalScripts()
 })
 

@@ -134,9 +134,20 @@ const pregenerateISR = async (newsItems, lang) => {
 
 
 // 初始化
-onMounted(() => {
+onMounted(async () => {
   isHydrated.value = true
-  fetchNews(1, currentLang.value)
+  await fetchNews(1, currentLang.value)
+  // 数据加载完成后再设置图片尺寸
+  const trRadio = 0.75;
+  const trWidth = 300;
+  const trHeight = trWidth * trRadio;
+
+  // 选择图片元素并设置尺寸
+  const images = document.querySelectorAll(".thumb-title-list li .post-thumbnail img");
+  images.forEach(img => {
+    img.style.width = `${trWidth}px`;
+    img.style.height = `${trHeight}px`;
+  });
 })
 
 // 监听语言变化

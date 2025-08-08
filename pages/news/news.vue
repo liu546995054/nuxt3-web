@@ -197,10 +197,38 @@ const formatDate = (dateString) => {
 }
 
 // 初始化
-onMounted(() => {
+onMounted(async () => {
   isHydrated.value = true
-  fetchNews(1, currentLang.value)
+  await fetchNews(1, currentLang.value)
+// 执行图片尺寸设置
+  setImageDimensions()
 })
+// 提取为单独的函数，方便复用
+const setImageDimensions = () => {
+  // 获取所有.cat-thumb-title-posts元素
+  const containers = document.querySelectorAll('.cat-thumb-title-posts')
+
+  containers.forEach(container => {
+    // 找到.section-container并获取data-radio属性值
+    const sectionContainer = container.querySelector('.section-container')
+    const ttRadio = parseFloat(sectionContainer?.dataset.radio || 0.75) // 默认0.75
+
+    // 获取.post-thumbnail的宽度
+    const postThumbnail = container.querySelector('.post-thumbnail')
+    const ttWidth = postThumbnail?.offsetWidth || 300 // 默认300px
+
+    // 计算高度
+    const ttHeight = ttWidth * ttRadio
+
+    // 设置所有图片的尺寸
+    const images = container.querySelectorAll('img')
+    images.forEach(img => {
+      img.style.width = `${ttWidth}px`
+      img.style.height = `${ttHeight}px`
+    })
+  })
+}
+
 
 // 监听语言变化
 watch(currentLang, (newLang) => {

@@ -286,6 +286,97 @@ const handleSubmit = () => {
 
 }
 
+// 在组件的onMounted钩子中添加以下代码
+onMounted(() => {
+  // 获取DOM元素
+  const messageFormBox = document.querySelector('.message-form-box');
+  const messageForm = messageFormBox?.querySelector('.message-form');
+  const messageHeader = messageFormBox?.querySelector('.message-header');
+  const arrowToggle = messageHeader?.querySelector('.arrow-toggle i');
+
+  if (!messageFormBox || !messageForm || !messageHeader || !arrowToggle) {
+    console.warn('消息表单相关元素未找到');
+    return;
+  }
+
+  // 初始隐藏表单
+  messageForm.style.display = 'none';
+
+  // 点击文档其他区域关闭表单
+  document.addEventListener('click', () => {
+    if (messageForm.style.display !== 'block') return;
+
+    // 获取当前高度（使用getBoundingClientRect更准确）
+    const startHeight = messageForm.getBoundingClientRect().height;
+
+    // 启动过渡动画
+    messageForm.style.height = `${startHeight}px`;
+    messageForm.style.overflow = 'hidden';
+
+    // 强制重绘
+    void messageForm.offsetHeight;
+
+    // 执行收缩动画
+    messageForm.style.transition = 'height 0.2s ease';
+    messageForm.style.height = '0px';
+
+    // 动画结束后重置状态
+    const onTransitionEnd = () => {
+      messageForm.style.display = 'none';
+      messageForm.style.transition = '';
+      messageForm.style.height = '';
+      messageForm.removeEventListener('transitionend', onTransitionEnd);
+    };
+    messageForm.addEventListener('transitionend', onTransitionEnd);
+  });
+
+  // 阻止消息表单容器的事件冒泡
+  messageFormBox.addEventListener('click', (event) => {
+    event.stopPropagation();
+  });
+
+  // 点击标题切换表单显示状态
+  messageHeader.addEventListener('click', () => {
+    const isHidden = messageForm.style.display === 'none';
+
+    if (isHidden) {
+      // 展开动画
+      messageForm.style.display = 'block';
+      const endHeight = messageForm.scrollHeight;
+
+      // 启动过渡动画
+      messageForm.style.height = '0px';
+      messageForm.style.overflow = 'hidden';
+
+      // 强制重绘
+      void messageForm.offsetHeight;
+
+      // 执行展开动画
+      messageForm.style.transition = 'height 0.2s ease';
+      messageForm.style.height = `${endHeight}px`;
+
+      // 动画结束后清理
+      const onTransitionEnd = () => {
+        messageForm.style.transition = '';
+        messageForm.style.height = '';
+        messageForm.removeEventListener('transitionend', onTransitionEnd);
+      };
+      messageForm.addEventListener('transitionend', onTransitionEnd);
+    } else {
+      // 收缩动画（与文档点击事件相同）
+      document.dispatchEvent(new Event('click'));
+    }
+
+    // 切换容器类名
+    messageFormBox.classList.toggle('message-form-box-toggle');
+
+    // 切换箭头图标
+    arrowToggle.classList.toggle('fa-angle-down');
+    arrowToggle.classList.toggle('fa-angle-up');
+  });
+});
+
+
 </script>
 
 

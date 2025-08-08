@@ -152,9 +152,9 @@ useHead({
       name: 'description',
       content: computed(() => {
         // 使用新闻摘要作为描述，如果没有则使用默认描述
-        if (newsDetail.value?.summary) {
+        if (newsDetail.value?.description) {
           // 确保描述不超过160个字符
-          return newsDetail.value.summary.substring(0, 160)
+          return newsDetail.value.description.substring(0, 160)
         }
         return 'TITAN Recyclingsystems-Metal Recycling Technologies'
       })
@@ -193,8 +193,8 @@ useHead({
     {
       property: 'og:description',
       content: computed(() => {
-        return newsDetail.value?.summary
-            ? newsDetail.value.summary.substring(0, 160)
+        return newsDetail.value?.description
+            ? newsDetail.value.description.substring(0, 160)
             : 'TITAN Recyclingsystems-Metal Recycling Technologies'
       })
     },
@@ -205,8 +205,8 @@ useHead({
     {
       name: 'twitter:description',
       content: computed(() => {
-        return newsDetail.value?.summary
-            ? newsDetail.value.summary.substring(0, 160)
+        return newsDetail.value?.description
+            ? newsDetail.value.description.substring(0, 160)
             : 'TITAN Recyclingsystems-Metal Recycling Technologies'
       })
     },
@@ -244,7 +244,7 @@ useHead({
               "url": "/favicon.ico" // 替换为你的网站logo
             }
           },
-          "description": newsDetail.value.summary || 'TITAN Recyclingsystems-Metal Recycling Technologies'
+          "description": newsDetail.value.description || 'TITAN Recyclingsystems-Metal Recycling Technologies'
         })
       })
     }
