@@ -20,7 +20,7 @@
                       <div class="attachment">
                         <div class="thumbnail">
                           <div class="centered">
-                            <img width="300" height="248" :src="item.imageUrl"
+                            <img width="300" height="248" style="width: 300px;height: 225px" :src="item.imageUrl"
                                  alt="On the role of metal chip press in the recycling of metal chips"
                                  class="attachment-medium size-medium wp-post-image"
                                  loading="lazy">
@@ -37,6 +37,8 @@
                     <span class="date"><i class="fa fa-clock-o"></i>{{item.date}}</span>
                     <span class="cat"><i class="fa fa-folder-open-o"></i>
                     </span>
+                  </div>
+                  <div class="opacity excerpt-content">{{item.description}}
                   </div>
 
                   <div class="link-read-more">
@@ -138,16 +140,16 @@ onMounted(async () => {
   isHydrated.value = true
   await fetchNews(1, currentLang.value)
   // 数据加载完成后再设置图片尺寸
-  const trRadio = 0.75;
-  const trWidth = 300;
-  const trHeight = trWidth * trRadio;
-
-  // 选择图片元素并设置尺寸
-  const images = document.querySelectorAll(".thumb-title-list li .post-thumbnail img");
-  images.forEach(img => {
-    img.style.width = `${trWidth}px`;
-    img.style.height = `${trHeight}px`;
-  });
+  // const trRadio = 0.75;
+  // const trWidth = 300;
+  // const trHeight = trWidth * trRadio;
+  //
+  // // 选择图片元素并设置尺寸
+  // const images = document.querySelectorAll(".thumb-title-list li .post-thumbnail img");
+  // images.forEach(img => {
+  //   img.style.width = `${trWidth}px`;
+  //   img.style.height = `${trHeight}px`;
+  // });
 })
 
 // 监听语言变化

@@ -766,8 +766,8 @@ jQuery(document).ready(function($) {
     var trRadio = 0.75;
     var trWidth = 300;
     var trHeight = trWidth * trRadio;
-    $(".thumb-excerpt-list li .post-thumbnail img").width(trWidth);
-    $(".thumb-excerpt-list li .post-thumbnail img").height(trHeight);
+    // $(".thumb-excerpt-list li .post-thumbnail img").width(trWidth);
+    // $(".thumb-excerpt-list li .post-thumbnail img").height(trHeight);
     var startDelayTime = 50;
     var addDelayTime = 50;
     $(".gallery-container").each(function() {
@@ -924,13 +924,13 @@ jQuery(document).ready(function($) {
             });
         }
     });
-    $(".cat-thumb-title-posts").each(function() {
-        var ttRadio = $(this).find(".section-container").data("radio");
-        var ttWidth = $(this).find(".post-thumbnail").width();
-        var ttHeight = ttWidth * ttRadio;
-        $(this).find("img").width(ttWidth);
-        $(this).find("img").height(ttHeight);
-    });
+    // $(".cat-thumb-title-posts").each(function() {
+    //     var ttRadio = $(this).find(".section-container").data("radio");
+    //     var ttWidth = $(this).find(".post-thumbnail").width();
+    //     var ttHeight = ttWidth * ttRadio;
+    //     $(this).find("img").width(ttWidth);
+    //     $(this).find("img").height(ttHeight);
+    // });
     $(window).bind("scroll", function() {
         if ($(this).scrollTop() > 200) {
             $(".back-to-top").fadeIn(500);

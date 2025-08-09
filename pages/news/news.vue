@@ -52,6 +52,7 @@
                                     <div class="thumbnail">
                                       <div class="centered">
                                         <img
+                                            style="width: 300px;height: 225px"
                                             :width="300"
                                             :height="248"
                                             :src="news.imageUrl"
@@ -77,6 +78,8 @@
                                   <i class="fa fa-clock-o"></i>
                                   {{ news.date }}
                                 </span>
+                              </div>
+                              <div class="opacity excerpt-content">{{news.description}}
                               </div>
                               <div class="link-read-more">
                                 <NuxtLinkLocale :to="`/news/${news.original_id}`">
@@ -201,7 +204,7 @@ onMounted(async () => {
   isHydrated.value = true
   await fetchNews(1, currentLang.value)
 // 执行图片尺寸设置
-  setImageDimensions()
+//   setImageDimensions()
 })
 // 提取为单独的函数，方便复用
 const setImageDimensions = () => {

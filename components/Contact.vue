@@ -7,15 +7,15 @@
           <ul>
             <li>
               <i class="fa fa-whatsapp"></i>
-              <span>+86 18913530891</span>
+              <span>+86-18360809300</span>
             </li>
             <li>
               <i class="fa fa-envelope-o"></i>
-              <span>aaron@titan-recycling.com</span>
+              <span>info@titan-recycling.com</span>
             </li>
             <li>
               <i class="fa fa-map-marker-alt"></i>
-              <span>#9 Guoyuan Road, Jiangyin, Jiangsu, China</span>
+              <span> #1 Renmin road, Qiaoqi, Jiangyin, Jiangsu, China</span>
             </li>
           </ul>
         </div>

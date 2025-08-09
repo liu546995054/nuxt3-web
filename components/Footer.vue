@@ -8,7 +8,7 @@
           <div class="textwidget">
             <p>
               <NuxtLinkLocale to="/about">
-                <span  aria-current="page" itemprop="url">{{ $t('footer.quick_links') }}</span>
+                <span  aria-current="page" itemprop="url">{{ $t('footer.about') }}</span>
               </NuxtLinkLocale>
             </p>
 
@@ -141,10 +141,10 @@
 
           <h3 class="widget-title">{{ $t('menu.contact') }}</h3>
           <div class="textwidget">
-            <p><strong><i class="fa fa-whatsapp"></i></strong> +86 18913530891</p>
+            <p><strong><i class="fa fa-whatsapp"></i></strong> +86 183 6080 9300</p>
             <p><strong><i class="fa fa-envelope-o"></i></strong><a href="mailto:aaron@titan-recycling.com"
                                                                    rel="nofollow">
-              aaron@titan-recycling.com</a>
+              info@titan-recycling.com</a>
             </p>
 
             <p><strong><img src="/images/address.png"></strong>{{ $t('contact.address') }}</p>

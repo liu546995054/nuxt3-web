@@ -36,6 +36,7 @@
   },
   "footer": {
     "quick_links": "Quick Links",
+    "about": "About TITAN",
     "products": "Products",
     "application": "Application",
     "service": "Service",
@@ -209,7 +210,7 @@
   },
   "news": {
     "noNews": "noNews",
-    "readMore": "readMore",
+    "readMore": "Read more",
     "publishTime": "Publish Time",
     "visited": "Visited",
     "visitedTimes": "Times"
@@ -217,7 +218,7 @@
   "contact": {
     "company_name": "JIANGYIN TITAN MACHINERY EQUIPMENT CO., LTD",
     "note": "If you have any questions about the service or company, please leave a message or contact us using the following contact information.",
-    "address": "#1 Renmin road,&nbspQiaoqi,&nbspJiangyin,&nbspJiangsu,&nbspChina"
+    "address": "# 9 Guoyuan road, Jiangyin, Jiangsu, China"
   },
   "message_box": {
     "title": "Leave a message",

@@ -88,7 +88,7 @@
                 </ul>
               </li>
               <li class="menu-item menu-item-has-children ">
-                <NuxtLinkLocale to="/application/light-scrap-shredding-crushing">
+                <NuxtLinkLocale to="/service/service">
                           <span class="menu-title">{{ $t('menu.service') }}
 													</span>
                 </NuxtLinkLocale>
@@ -144,7 +144,7 @@
               <li class="menu-item ">
                 <a href="mailto:aaron@titan-recycling.com" rel="nofollow" aria-current="page"
                    itemprop="url" style="padding: 0 4px;padding-left: 20px;">
-                  <i class="fa-regular fa-envelope"></i>
+                  <i class="fa fa-envelope-o"></i>
                   <span style="font-weight: 400;font-size: 14px;">
 											E-mail
 										</span>
