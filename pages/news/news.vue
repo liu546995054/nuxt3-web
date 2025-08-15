@@ -108,9 +108,9 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import {computed, ref, watch} from 'vue'
+import {useRoute} from 'vue-router'
+import {useI18n} from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -154,7 +154,7 @@ const fetchNews = async (page = 1, lang) => {
 
     newsList.value = data.news.filter(v=>v.lang === currentLang.value)
     // 关键优化：为列表中的每条新闻预生成ISR缓存
-    await pregenerateISR(newsList, currentLang.value);
+    // await pregenerateISR(newsList, currentLang.value);
   } catch (err) {
     console.error('Failed to fetch news:', err)
   }
@@ -184,61 +184,16 @@ const pregenerateISR = async (newsItems, lang) => {
   );
 };
 
-// 分页切换
-const changePage = (page) => {
-  if (page < 1 || page > totalPages.value) return
-  currentPage.value = page
-  if (process.client) {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-}
 
-// 日期格式化
-const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: 'short', day: 'numeric' }
-  return new Date(dateString).toLocaleDateString(currentLang.value, options)
-}
+
 
 // 初始化
 onMounted(async () => {
   isHydrated.value = true
   await fetchNews(1, currentLang.value)
-// 执行图片尺寸设置
-//   setImageDimensions()
+
 })
-// 提取为单独的函数，方便复用
-const setImageDimensions = () => {
-  // 获取所有.cat-thumb-title-posts元素
-  const containers = document.querySelectorAll('.cat-thumb-title-posts')
 
-  containers.forEach(container => {
-    // 找到.section-container并获取data-radio属性值
-    const sectionContainer = container.querySelector('.section-container')
-    const ttRadio = parseFloat(sectionContainer?.dataset.radio || 0.75) // 默认0.75
-
-    // 获取.post-thumbnail的宽度
-    const postThumbnail = container.querySelector('.post-thumbnail')
-    const ttWidth = postThumbnail?.offsetWidth || 300 // 默认300px
-
-    // 计算高度
-    const ttHeight = ttWidth * ttRadio
-
-    // 设置所有图片的尺寸
-    const images = container.querySelectorAll('img')
-    images.forEach(img => {
-      img.style.width = `${ttWidth}px`
-      img.style.height = `${ttHeight}px`
-    })
-  })
-}
-
-
-// 监听语言变化
-watch(currentLang, (newLang) => {
-  if (isHydrated.value) {
-    fetchNews(1, newLang)
-  }
-})
 
 // 监听路由变化
 watch(

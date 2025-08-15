@@ -52,23 +52,18 @@
 </template>
 
 <script setup>
-import {computed, onMounted, ref, watch} from 'vue'
-import {useRoute, useRouter} from 'vue-router'
+import {computed, ref, watch} from 'vue'
+import {useRoute} from 'vue-router'
 
 // 国际化
 const { t } = useI18n()
 // 路由信息
 const route = useRoute()
-const router = useRouter()
 
 
 
 // 状态管理
 const newsDetail = ref({})
-const prevNews = ref(null) // 上一篇
-const nextNews = ref(null) // 下一篇
-const isLoading = ref(true)
-const error = ref(null)
 const langCookie = useCookie('i18n_redirected') // 获取语言 Cookie
 const currentLang = langCookie.value || 'en' // 优先用 Cookie，否则默认 'en'
 // 背景图计算属性（与列表页保持一致）
@@ -99,35 +94,23 @@ const { data, refresh, error: fetchError } = await useAsyncData(
       const data = await response.json();
       return {
         detail: data.news.filter(v=>v.original_id == id && v.lang === currentLang)[0],
-        prev: data.prev,
-        next: data.next
       };
-    },
-    {
-      // ISR 缓存配置（可选，可覆盖 nuxt.config 中的全局设置）
-      revalidate: 3600, // 缓存1小时（单位：秒），与 nuxt.config 中的 isr 配置一致
     }
 );
 
 
 newsDetail.value = data.value.detail
 
-// 日期格式化（适配当前语言）
-const formatDate = (dateString) => {
-  const options = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
+definePageMeta({
+  // 与nitro.routeRules中的配置保持一致（1小时过期）
+  isr: {
+    expiresIn: 3600, // 过期时间（秒）
+    revalidate: true // 允许重新生成
   }
-  return new Date(dateString).toLocaleDateString(route.params.locale || 'en', options)
-}
-
-// 初始化
-onMounted(() => {
-  // fetchNewsDetail()
 })
+
+
+
 
 watch(
     () => route.params.locale,
