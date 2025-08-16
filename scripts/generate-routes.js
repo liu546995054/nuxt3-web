@@ -79,34 +79,4 @@ export function getPrerenderRoutes() {
     return routes;
 }
 
-// 动态生成新闻详情页路由（从API获取ID）
-async function generateNewsRoutes() {
-    const defaultLocale = 'en';
-    const locales = ['en', 'esp', 'ru'];
-    const newsRoutes = [];
 
-    try {
-        // 1. 从API获取所有新闻ID（假设接口返回{ data: [{id:1}, {id:2}] }）
-        const apiUrl = `${process.env.API_BASE_URL}/news/ids`;
-        const response = await fetch(apiUrl);
-        const { data: newsIds } = await response.json();
-
-        // 2. 为每个新闻ID生成多语言路由
-        newsIds.forEach(news => {
-            locales.forEach(locale => {
-                if (locale === defaultLocale) {
-                    // 默认语言：无前缀，如 /news/1
-                    newsRoutes.push(`/news/${news.id}`);
-                } else {
-                    // 其他语言：带前缀，如 /esp/news/1
-                    newsRoutes.push(`/${locale}/news/${news.id}`);
-                }
-            });
-        });
-
-        return newsRoutes;
-    } catch (error) {
-        console.error('生成新闻路由失败:', error);
-        return []; // 失败时返回空数组，避免打包报错
-    }
-}

@@ -101,14 +101,6 @@ const { data, refresh, error: fetchError } = await useAsyncData(
 
 newsDetail.value = data.value.detail
 
-definePageMeta({
-  // 与nitro.routeRules中的配置保持一致（1小时过期）
-  isr: {
-    expiresIn: 3600, // 过期时间（秒）
-    revalidate: true // 允许重新生成
-  }
-})
-
 
 
 

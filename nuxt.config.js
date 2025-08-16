@@ -1,7 +1,6 @@
 import {getPrerenderRoutes} from "./scripts/generate-routes.js";
 
 export default defineNuxtConfig({
-  // 开启SSG模式配置
   ssr: true,
   // target: 'static',
   css: [
@@ -14,17 +13,11 @@ export default defineNuxtConfig({
     '~/assets/css/jquery.fancybox.css',
     '~/assets/css/swiper.css'
   ],
-  // js: [
-  //   '~/assets/js/jquery.min.js',
-  //   '~/assets/js/xzoom.min.js',
-  //   '~/assets/js/zwebs.js',
-  //   '~/assets/js/pagination.js',
-  //
-  // ],
+
 
   app: {
     // buildAssetsDir: '/_nuxt/',  // Vercel默认路径
-    baseURL: '/public/',
+    baseURL: '/',
     head: {
       meta: [
         { name: 'robots', content: 'index, follow' } // 明确允许收录和跟踪链接
@@ -150,42 +143,41 @@ export default defineNuxtConfig({
     },
     prerender: {
       routes: getPrerenderRoutes(), // 保留预渲染路由（初始静态页面）
-      // 预渲染时跳过ISR页面（避免构建时重复生成，交给ISR动态处理）
-      ignore: ['/**/news/[id]', '/news/[id]']
+      crawlLinks: false
     },
     // 全局响应头（兼容阿里云CDN）
     '/**': {
       headers: {
         'X-Robots-Tag': 'index, follow',
-        // 允许CDN缓存ISR页面（关键：配合CDN缓存规则）
-        'Cache-Control': 'public, s-maxage=0, max-age=0, must-revalidate'
+        // 静态页面可长期缓存（根据需求调整）
+        'Cache-Control': 'public, max-age=86400, s-maxage=604800'
       }
     },
     routeRules: {
-      // 1. 多语言新闻详情页（ISR核心配置）
+      // 1. 多语言新闻详情页
       '/**/news/[id]': {
-        isr: 3600, // 核心：ISR缓存1小时（与CDN缓存时间一致）
-        cache: {
-          swr: true, // 启用 stale-while-revalidate 模式
-          maxAge: 3600, // 客户端缓存1小时
-          staleMaxAge: 86400 // 缓存过期后，允许使用旧内容直到新内容生成（可选，视业务需求）
-        },
+        prerender: false, // 禁止预渲染
+        ssr: true,        // 强制服务端实时渲染
         headers: {
           'X-Robots-Tag': 'index, follow',
-          // 告知CDN：该页面由ISR管理，缓存1小时后回源FC重新生成
-          'Cache-Control': 'public, s-maxage=3600, max-age=0, must-revalidate'
+          // 禁止缓存，每次请求实时生成
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
         }
       },
       // 2. 默认语言新闻详情页（同上，保持规则一致）
       '/news/[id]': {
-        isr: 3600,
-        cache: { swr: true, maxAge: 3600, staleMaxAge: 86400 },
+        prerender: false, // 禁止预渲染
+        ssr: true,        // 强制服务端实时渲染
         headers: {
           'X-Robots-Tag': 'index, follow',
-          'Cache-Control': 'public, s-maxage=3600, max-age=0, must-revalidate'
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
         }
       },
-      // 3. 外部API缓存（确保ISR生成时能获取较新数据）
+      // 3. 外部API缓存
       'https://cloud-note-1256263900.cos.ap-nanjing.myqcloud.com/news.json': {
         cache: {
           swr: true,
