@@ -1608,10 +1608,7 @@ jQuery(document).ready(function($) {
                     return wpcf7.init(e)
                 }
                 ))) : console.error("Your browser doesn't support NodeList.forEach().")
-            } else
-                console.error("wpcf7.api is not defined.");
-        else
-            console.error("wpcf7 is not defined.")
+            }
     }
     ))
 }

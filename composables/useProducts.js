@@ -74,7 +74,7 @@ export const usePageSeo = (pageKey) => {
     // 生成 alternate URL（保持不变）
     const generateAlternateUrl = (targetLang) => {
 
-        const baseUrl = 'https://web.prowebbuilding.com/' // 建议改为动态获取（如从环境变量）
+        const baseUrl = 'https://titan-recycling.com/' // 建议改为动态获取（如从环境变量）
         let path = route.path
         const langCookie = useCookie('i18n_redirected') // 获取语言 Cookie
         const currentLang = langCookie.value || 'en' // 优先用 Cookie，否则默认 'en'

@@ -54,12 +54,14 @@
                   <input type="hidden" name="id" id="id" value="message">
                   <div class="am-cf item">
                     <div class="iput">
-                      <input type="text" name="name" id="name" :placeholder="$t('message_box.name_placeholder')">
+                      <input type="text" name="name" id="name" v-model="form.name"
+                             :placeholder="$t('message_box.name_placeholder')">
                       <div class="bitian">*</div>
                     </div>
 
                     <div class="iput">
-                      <input type="text" name="tel" id="tel" :placeholder="$t('message_box.phone_placeholder')">
+                      <input type="text" name="tel" id="tel" v-model="form.phone"
+                             :placeholder="$t('message_box.phone_placeholder')">
                       <div class="bitian">*</div>
                     </div>
 
@@ -67,18 +69,23 @@
 
                   <div class="am-cf">
                     <div class="iput">
-                      <input type="text" name="email" id="email" :placeholder="$t('message_box.email_placeholder')">
+                      <input type="text" name="email" id="email" v-model="form.email"
+                             :placeholder="$t('message_box.email_placeholder')">
 
                     </div>
                     <div class="iput">
                                         <textarea rows="5" type="text" id="content" name="content"
+                                                  v-model="form.content"
                                                   :placeholder="$t('message_box.message_placeholder')"></textarea>
                     </div>
 
                   </div>
 
                   <div class="c-t-m-btn">
-                    <button type="submit" id="tj" key="SUBMIT">{{ $t('message_box.submit') }}</button>
+                    <button type="submit" id="tj" key="SUBMIT" @click="handleSubmit">{{
+                        $t('message_box.submit')
+                      }}
+                    </button>
                   </div>
 
                 </div>
@@ -94,5 +101,66 @@
 </template>
 
 <script setup>
+import {ref} from 'vue'
+import {useI18n} from 'vue-i18n'
+
+const {t} = useI18n()
+// 表单数据
+const form = ref({
+  name: '',
+  email: '',
+  phone: '',
+  content: ''
+})
 usePageSeo('contact')
+// 提交处理
+const handleSubmit = async () => {
+  // 基本验证
+  if (!form.value.name.trim()) {
+    alert(t('message_box.name_placeholder'))
+    return
+  }
+
+  if (!form.value.email.trim()) {
+    alert(t('message_box.email_placeholder'))
+    return
+  }
+  if (form.value.email.trim() && !(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(form.value.email.trim()))) {
+    alert(t('message_box.email_format'))
+    return
+  }
+
+  if (!form.value.phone.trim()) {
+    alert(t('message_box.phone_placeholder'))
+    return
+  }
+
+  if (!form.value.content.trim()) {
+    alert(t('message_box.message_placeholder'))
+    return
+  }
+
+  const apiUrl = `https://api.titan-recycling.com/article/v1/client/comment/add`;
+
+  const response = await fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json', // 指定JSON格式
+    },
+    body: JSON.stringify(form.value) // 序列化请求体
+  });
+
+  const data = await response.json();
+  if (data.error_code === 10000) {
+    alert(t('message_box.submit_success'))
+    form.value = {
+      name: '',
+      email: '',
+      phone: '',
+      content: ''
+    }
+  }
+
+
+}
 </script>

@@ -2,7 +2,7 @@
   <div class="wrapper">
     <!-- 头部区域（与列表页保持一致） -->
     <div class="section-header" :style="`background-image: url(${backgroundImage})`">
-      <Header />
+      <Header/>
       <div class="sub-header">
         <div class="inner">
           <h2 class="current-title">{{ $t('menu.news') }}</h2>
@@ -12,14 +12,14 @@
               <NuxtLinkLocale to="/" itemprop="item">
                 <span itemprop="name">{{ $t('home') }}</span>
               </NuxtLinkLocale>
-              <meta itemprop="position" content="1" />
+              <meta itemprop="position" content="1"/>
             </li>
             <i class="delimiter"></i>
             <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
               <NuxtLinkLocale to="/news/news" itemprop="item">
                 <span itemprop="name">{{ $t('menu.news') }}</span>
               </NuxtLinkLocale>
-              <meta itemprop="position" content="2" />
+              <meta itemprop="position" content="2"/>
             </li>
           </ol>
         </div>
@@ -31,11 +31,11 @@
       <div class="container container-news">
         <div class="inner wrapper-content new-content">
           <div class="nynews-head" id="news-contents-head">
-            <h1>{{newsDetail.title}}</h1>
+            <h1>{{ newsDetail.news_title }}</h1>
             <div class="info">
-              <span>{{$t('menu.news') }}</span>
-              <span>{{$t('news.publishTime') }}: {{newsDetail.date}} </span>
-              <span>{{$t('news.visited') }}: 2113 {{$t('news.visitedTimes') }}</span>
+              <span>{{ $t('menu.news') }}</span>
+              <span style="padding: 0 5px">{{ $t('news.publishTime') }}: {{ newsDetail.publish_time }} </span>
+              <span>{{ $t('news.visited') }}:{{ newsDetail.views }} {{ $t('news.visitedTimes') }}</span>
             </div>
           </div>
           <div class="nynews-boxarc arccontent maximg" id="news-contents" v-html="newsDetail.content">
@@ -44,10 +44,9 @@
       </div>
 
 
-
     </main>
 
-    <Footer />
+    <Footer/>
   </div>
 </template>
 
@@ -56,11 +55,11 @@ import {computed, ref, watch} from 'vue'
 import {useRoute} from 'vue-router'
 
 // 国际化
-const { t } = useI18n()
+const {t} = useI18n()
 // 路由信息
 const route = useRoute()
 
-
+console.log('mmmmmm', route)
 
 // 状态管理
 const newsDetail = ref({})
@@ -71,46 +70,87 @@ const backgroundImage = computed(() => {
   return '/images/news/bg1.jpg'
 })
 
+const format_time = (time) => {
+  const date = new Date(time);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+}
+const {id} = route.params;
+const apiUrl = `https://api.titan-recycling.com/article/v1/client/news/detail`;
+const { data, pending, error, refresh } = await useFetch(apiUrl, {
+  method: 'post',
+  body: {
+    id: id,
+    lang: currentLang
+  },
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+
+if (data.value.error_code === 10000){
+  newsDetail.value = {
+    news_title: data.value.result_data.translations[0].news_title,
+    content: data.value.result_data.translations[0].content,
+    publish_time: format_time(data.value.result_data.publish_time),
+    views: data.value.result_data.views,
+  }
+}
+
+
+
 // 移除原有的 fetchNewsDetail 函数，改用 useAsyncData 在组件初始化时获取数据
-const { data, refresh, error: fetchError } = await useAsyncData(
-    // 唯一缓存键（结合语言和新闻slug，确保不同新闻/语言的缓存独立）
-    `news-detail-${currentLang}-${route.params.id}`,
-    async () => {
-      const { id } = route.params;
-      // 构建API地址（包含语言和新闻slug）
-      // const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/news/${slug}?lang=${locale || 'en'}`;
-      const apiUrl = `https://cloud-note-1256263900.cos.ap-nanjing.myqcloud.com/news.json`;
+// const {data, refresh, error: fetchError} = await useAsyncData(
+//     // 唯一缓存键（结合语言和新闻slug，确保不同新闻/语言的缓存独立）
+//     `news-detail-${currentLang}-${route.params.id}`,
+//     async () => {
+//       const {id} = route.params;
+//
+//       const apiUrl = `https://api.titan-recycling.com/article/v1/client/news/detail`;
+//
+//       const response = await fetch(apiUrl, {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json', // 指定JSON格式
+//         },
+//         body: JSON.stringify({id: id, lang: currentLang}) // 序列化请求体
+//       });
+//
+//
+//       if (!response.ok) {
+//         // 处理404或其他错误（例如跳转到404页面）
+//         if (response.status === 404) {
+//           throw createError({statusCode: 404, statusMessage: 'News not found'});
+//         }
+//         throw createError({statusCode: response.status, statusMessage: 'Failed to fetch news'});
+//       }
+//
+//       const data = await response.json();
+//       console.log('hhhhhh', data)
+//       return {
+//         detail: data.result_data
+//       };
+//     }
+// );
 
-      const response = await fetch(apiUrl);
-
-      if (!response.ok) {
-        // 处理404或其他错误（例如跳转到404页面）
-        if (response.status === 404) {
-          throw createError({ statusCode: 404, statusMessage: 'News not found' });
-        }
-        throw createError({ statusCode: response.status, statusMessage: 'Failed to fetch news' });
-      }
-
-      const data = await response.json();
-      return {
-        detail: data.news.filter(v=>v.original_id == id && v.lang === currentLang)[0],
-      };
-    }
-);
-
-
-newsDetail.value = data.value.detail
 
 
 
 
-watch(
-    () => route.params.locale,
-    () => {
-      refresh();
-    },
-    { immediate: true }
-)
+
+
+// watch(
+//     () => route.params.locale,
+//     () => {
+//       refresh();
+//     },
+//     {immediate: true}
+// )
 
 // 设置SEO元数据
 useHead({
@@ -138,7 +178,7 @@ useHead({
       name: 'keywords',
       content: computed(() => {
         // 提取新闻标签作为关键词
-        if (newsDetail.value?.keywords ) {
+        if (newsDetail.value?.keywords) {
           return newsDetail.value.keywords
         }
         return 'TITAN Recyclingsystems-Metal Recycling Technologies'
@@ -152,8 +192,8 @@ useHead({
     //   })
     // },
     // Open Graph 元数据（用于社交媒体分享）
-    { property: 'og:title', content: computed(() => newsDetail.value?.title || t('news.defaultTitle')) },
-    { property: 'og:type', content: 'article' },
+    {property: 'og:title', content: computed(() => newsDetail.value?.title || t('news.defaultTitle'))},
+    {property: 'og:type', content: 'article'},
     // {
     //   property: 'og:url',
     //   content: computed(() => `${window.location.origin}${route.fullPath}`)
@@ -162,7 +202,7 @@ useHead({
       property: 'og:image',
       content: computed(() => {
         // 使用新闻图片作为分享图片
-        return newsDetail.value?.imageUrl || '/images/news/n1.png'
+        return newsDetail.value?.cover || '/images/news/n1.png'
       })
     },
     {
@@ -173,10 +213,10 @@ useHead({
             : 'TITAN Recyclingsystems-Metal Recycling Technologies'
       })
     },
-    { property: 'og:locale', content: currentLang },
+    {property: 'og:locale', content: currentLang},
     // Twitter 卡片元数据
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: computed(() => newsDetail.value?.title || t('news.defaultTitle')) },
+    {name: 'twitter:card', content: 'summary_large_image'},
+    {name: 'twitter:title', content: computed(() => newsDetail.value?.title || t('news.defaultTitle'))},
     {
       name: 'twitter:description',
       content: computed(() => {
@@ -188,7 +228,7 @@ useHead({
     {
       name: 'twitter:image',
       content: computed(() => {
-        return newsDetail.value?.imageUrl || '/images/news/n1.png'
+        return newsDetail.value?.cover || '/images/news/n1.png'
       })
     }
   ],
@@ -204,7 +244,7 @@ useHead({
           "@context": "https://schema.org",
           "@type": "NewsArticle",
           "headline": newsDetail.value.title,
-          "image": [newsDetail.value.imageUrl || '/images/news/n1.png'],
+          "image": [newsDetail.value.cover || '/images/news/n1.png'],
           "datePublished": newsDetail.value.publishedAt,
           "dateModified": newsDetail.value.updatedAt || newsDetail.value.publishedAt,
           "author": [{
@@ -227,7 +267,7 @@ useHead({
 })
 </script>
 
-<style  scoped>
+<style scoped>
 /* 基础样式保持与列表页一致 */
 .news-detail {
   max-width: 800px;

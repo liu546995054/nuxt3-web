@@ -222,11 +222,13 @@
   },
   "message_box": {
     "title": "Leave a message",
-    "name_placeholder": "Your Name",
-    "email_placeholder": "Your Email",
-    "phone_placeholder": "Your Phone",
+    "name_placeholder": " Please enter your name",
+    "email_placeholder": "Please enter your email",
+    "email_format": "Incorrect email format",
+    "phone_placeholder": "Please enter your phone",
     "message_placeholder": "Please fill in the details",
-    "submit": "Submit"
+    "submit": "Submit",
+    "submit_success": "Submission successful"
   },
   "home": "Home",
   "productsList": {

@@ -161,7 +161,7 @@
 				<span class="label">
 					<i class="fa fa-commenting-o"></i>
 				</span>
-        <b>Leave a message</b>
+        <b>{{$t('message_box.title')}}</b>
         <span class="arrow-toggle">
 					<i class="fa fa-angle-up"></i>
 				</span>
@@ -169,13 +169,11 @@
       <div class="message-form">
 
           <div class="wpcf7">
-            <form
-                action="#"
-                method="post"
-                class="wpcf7-form init"
-                @submit.prevent="handleSubmit"
-                name="Inquiry"
-            >
+<!--            <form-->
+<!--                class="wpcf7-form init"-->
+<!--                @submit.prevent="handleSubmit"-->
+<!--                name="Inquiry"-->
+<!--            >-->
               <p>
         <span class="wpcf7-form-control-wrap your-name">
           <input
@@ -183,9 +181,7 @@
               v-model="form.name"
               size="40"
               class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
-              id="your-name"
-              placeholder="Your Name (required)"
-              required
+              :placeholder="$t('message_box.name_placeholder')"
           />
         </span>
               </p>
@@ -197,9 +193,7 @@
               v-model="form.email"
               size="40"
               class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email"
-              id="your-email"
-              placeholder="Your Email (required)"
-              required
+              :placeholder="$t('message_box.email_placeholder')"
           />
         </span>
               </p>
@@ -208,11 +202,10 @@
         <span class="wpcf7-form-control-wrap your-phone">
           <input
               type="tel"
-              v-model="form.tel"
+              v-model="form.phone"
               size="40"
               class="wpcf7-form-control wpcf7-text wpcf7-tel wpcf7-validates-as-tel"
-              id="your-phone"
-              placeholder="Your Phone"
+              :placeholder="$t('message_box.phone_placeholder')"
           />
         </span>
               </p>
@@ -220,13 +213,11 @@
               <p>
         <span class="wpcf7-form-control-wrap your-message">
           <textarea
-              v-model="form.contents"
+              v-model="form.content"
               cols="40"
               rows="10"
               class="wpcf7-form-control wpcf7-textarea wpcf7-validates-as-required"
-              id="your-message"
-              placeholder="Please fill in the details"
-              required
+              :placeholder="$t('message_box.message_placeholder')"
           ></textarea>
         </span>
               </p>
@@ -234,11 +225,12 @@
               <p class="btn-submit">
                 <input
                     type="submit"
-                    value="Submit"
+                    :value="$t('message_box.submit')"
                     class="wpcf7-form-control wpcf7-submit"
+                    @click="handleSubmit"
                 />
               </p>
-            </form>
+<!--            </form>-->
           </div>
       </div>
     </div>
@@ -253,36 +245,95 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 // 表单数据
 const form = ref({
   name: '',
   email: '',
   phone: '',
-  message: ''
+  content: ''
 })
 
 
 // 提交处理
-const handleSubmit = () => {
+const handleSubmit = async () => {
   // 基本验证
   if (!form.value.name.trim()) {
-    alert('Please enter your name')
+    alert(t('message_box.name_placeholder'))
     return
   }
 
   if (!form.value.email.trim()) {
-    alert('Please enter your email')
+    alert(t('message_box.email_placeholder'))
+    return
+  }
+  if (form.value.email.trim() && !(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(form.value.email.trim()))) {
+    alert(t('message_box.email_format'))
     return
   }
 
-  if (!form.value.message.trim()) {
-    alert('Please fill in the details')
+  if (!form.value.phone.trim()) {
+    alert(t('message_box.phone_placeholder'))
     return
   }
 
-  // 这里可以添加实际的表单提交逻辑
-  console.log('Form submitted:', form.value)
+  if (!form.value.content.trim()) {
+    alert(t('message_box.message_placeholder'))
+    return
+  }
+
+  const apiUrl = `https://api.titan-recycling.com/article/v1/client/comment/add`;
+
+  const response = await fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json', // 指定JSON格式
+    },
+    body: JSON.stringify(form.value) // 序列化请求体
+  });
+
+  const data = await response.json();
+  if (data.error_code === 10000){
+    alert(t('message_box.submit_success'))
+    form.value = {
+      name: '',
+      email: '',
+      phone: '',
+      content: ''
+    }
+    const messageFormBox = document.querySelector('.message-form-box');
+    const messageForm = messageFormBox?.querySelector('.message-form');
+    const messageHeader = messageFormBox?.querySelector('.message-header');
+    const arrowToggle = messageHeader?.querySelector('.arrow-toggle i');
+    if (messageForm.style.display !== 'block') return;
+
+    // 获取当前高度（使用getBoundingClientRect更准确）
+    const startHeight = messageForm.getBoundingClientRect().height;
+
+    // 启动过渡动画
+    messageForm.style.height = `${startHeight}px`;
+    messageForm.style.overflow = 'hidden';
+
+    // 强制重绘
+    void messageForm.offsetHeight;
+
+    // 执行收缩动画
+    messageForm.style.transition = 'height 0.2s ease';
+    messageForm.style.height = '0px';
+
+    // 动画结束后重置状态
+    const onTransitionEnd = () => {
+      messageForm.style.display = 'none';
+      messageForm.style.transition = '';
+      messageForm.style.height = '';
+      messageForm.removeEventListener('transitionend', onTransitionEnd);
+    };
+    messageForm.addEventListener('transitionend', onTransitionEnd);
+  }
+
+
 
 }
 

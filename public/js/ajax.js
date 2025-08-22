@@ -1,7 +1,7 @@
 
 
 const urls = '//www.titan-recycling.com';
-const ajaxUrls = '//api.titan-recycling.com'
+const ajaxUrls = '//192.168.0.103:8802'
 var news = {
     init: function () {
         const pathname = window.location.pathname;
@@ -249,7 +249,7 @@ var news = {
             if (jQuery("#email").val() != "" && !jQuery("#email").val().match(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/)) { alert("请输入正确的邮箱"); jQuery("#email").focus(); return false; }
             if (jQuery('#content').val() == '') { alert('请输入需求'); return false; }
             jQuery.ajax({
-                url: ajaxUrls + '/appBiz/queryrecord/add', // 替换为你的API端点
+                url: ajaxUrls + '/article/v1/client/comment/add', // 替换为你的API端点
                 type: 'post', // 请求类型，可以是GET、POST等
                 dataType: 'json', // 期望从服务器返回的数据类型
                 headers: {

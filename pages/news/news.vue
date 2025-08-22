@@ -3,7 +3,7 @@
     <ClientOnly>
       <!-- 头部区域 -->
       <div class="section-header" :style="`background-image: url(${backgroundImage})`">
-        <Header />
+        <Header/>
         <div class="sub-header">
           <div class="inner">
             <h2 class="current-title">{{ $t('menu.news') }}</h2>
@@ -13,14 +13,14 @@
                 <NuxtLinkLocale to="/" itemprop="item">
                   <span itemprop="name">{{ $t('home') }}</span>
                 </NuxtLinkLocale>
-                <meta itemprop="position" content="1" />
+                <meta itemprop="position" content="1"/>
               </li>
               <i class="delimiter"></i>
               <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
                 <NuxtLinkLocale to="/news/news" itemprop="item">
                   <span itemprop="name">{{ $t('menu.news') }}</span>
                 </NuxtLinkLocale>
-                <meta itemprop="position" content="2" />
+                <meta itemprop="position" content="2"/>
               </li>
             </ol>
           </div>
@@ -46,7 +46,7 @@
                               :data-aos-delay="index * 100"
                           >
                             <figure class="post-thumbnail">
-                              <NuxtLinkLocale :to="`/news/${news.original_id }`">
+                              <NuxtLinkLocale :to="{ path: `/news/${news.id}` }">
                                 <div class="item-cover">
                                   <div class="attachment">
                                     <div class="thumbnail">
@@ -55,7 +55,7 @@
                                             style="width: 300px;height: 225px"
                                             :width="300"
                                             :height="248"
-                                            :src="news.imageUrl"
+                                            :src="news.cover"
                                             :alt="news.alt || news.title"
                                             class="attachment-medium size-medium wp-post-image"
                                             loading="lazy"
@@ -69,7 +69,7 @@
                             </figure>
                             <div class="post-excerpt">
                               <h3>
-                                <NuxtLinkLocale :to="`/news/${news.original_id}`" :title="news.title">
+                                <NuxtLinkLocale :to="{ path: `/news/${news.id}`}" :title="news.title">
                                   {{ news.title }}
                                 </NuxtLinkLocale>
                               </h3>
@@ -79,10 +79,10 @@
                                   {{ news.date }}
                                 </span>
                               </div>
-                              <div class="opacity excerpt-content">{{news.description}}
+                              <div class="opacity excerpt-content">{{ news.description }}
                               </div>
                               <div class="link-read-more">
-                                <NuxtLinkLocale :to="`/news/${news.original_id}`">
+                                <NuxtLinkLocale :to="{ path: `/news/${news.id}` }">
                                   <span>{{ $t('news.readMore') }}</span>
                                   <i class="fa fa-angle-right"></i>
                                 </NuxtLinkLocale>
@@ -102,7 +102,7 @@
         </div>
       </main>
 
-      <Footer />
+      <Footer/>
     </ClientOnly>
   </div>
 </template>
@@ -112,7 +112,7 @@ import {computed, ref, watch} from 'vue'
 import {useRoute} from 'vue-router'
 import {useI18n} from 'vue-i18n'
 
-const { t } = useI18n()
+const {t} = useI18n()
 const route = useRoute()
 
 // 状态管理
@@ -121,7 +121,6 @@ const currentPage = ref(1)
 const totalPages = ref(1)
 const itemsPerPage = ref(3) // 每页显示3条
 const isHydrated = ref(false)
-
 
 
 // 计算属性
@@ -133,78 +132,54 @@ const paginatedNews = computed(() => {
   return newsList.value.slice(start, end)
 })
 
-
-// 获取新闻数据
-const fetchNews = async (page = 1, lang) => {
-  try {
-    const apiUrl = `https://cloud-note-1256263900.cos.ap-nanjing.myqcloud.com/news.json`;
-
-    const response = await fetch(apiUrl);
-
-    if (!response.ok) {
-      // 处理404或其他错误（例如跳转到404页面）
-      if (response.status === 404) {
-        throw createError({ statusCode: 404, statusMessage: 'News not found' });
-      }
-      throw createError({ statusCode: response.status, statusMessage: 'Failed to fetch news' });
-    }
-
-    const data = await response.json();
-
-
-    newsList.value = data.news.filter(v=>v.lang === currentLang.value)
-    // 关键优化：为列表中的每条新闻预生成ISR缓存
-    // await pregenerateISR(newsList, currentLang.value);
-  } catch (err) {
-    console.error('Failed to fetch news:', err)
+const apiUrl = `https://api.titan-recycling.com/article/v1/client/news/list`;
+const { data, pending, error, refresh } = await useFetch(apiUrl, {
+  method: 'post',
+  body: {
+    row_start: 1,
+    row_count: 100,
+    lang: toRaw(currentLang.value) // 移除响应式包装
+  },
+  headers: {
+    'Content-Type': 'application/json'
   }
-}
-
-// 预生成详情页ISR缓存
-const pregenerateISR = async (newsItems, lang) => {
-  if (process.client) return; // 仅在服务端执行
-
-  await Promise.all(
-      newsItems.map(async (news) => {
-        // 处理默认语言路径（en不带前缀）
-        const path = news.lang === 'en'
-            ? `/news/${news.original_id}`  // 默认语言路径
-            : `/${news.lang}/news/${news.original_id}`; // 其他语言路径
-
-        try {
-          await $fetch(path, {
-            headers: { 'x-prerender-revalidate': 'true' },
-            params: { _isr: 1 }
-          });
-          console.log(`预生成ISR: ${path}`);
-        } catch (err) {
-          console.error(`预生成失败 ${path}:`, err);
-        }
-      })
-  );
-};
-
-
-
-
-// 初始化
-onMounted(async () => {
-  isHydrated.value = true
-  await fetchNews(1, currentLang.value)
-
 })
 
+console.log('ppppppppp',data.value)
 
-// 监听路由变化
-watch(
-    () => route.params.locale,
-    (newLocale) => {
-      if (newLocale && isHydrated.value) {
-        fetchNews(1, newLocale)
-      }
-    },
-    { immediate: true }
-)
+if (data.value.error_code === 10000){
+  newsList.value = data.value.result_data.items.map(item => {
+    if (item.publish_time) {
+      const date = new Date(item.publish_time);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+
+      item.publish_time = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    } else {
+      item.publish_time = ''; // 可选：处理 create_time 为空的情况
+    }
+    return {
+      url_site: item.url_site,
+      id: item.id,
+      title: item.translations[0].news_title,
+      cover: item.cover,
+      date: item.publish_time,
+      description: item.translations[0].summary,
+    }
+
+  })
+}
+
+
+
+
+
+
+
 </script>
 
 <style scoped>

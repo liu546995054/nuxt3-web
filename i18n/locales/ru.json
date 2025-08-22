@@ -222,11 +222,13 @@
   },
   "message_box": {
     "title": "Оставить сообщение",
-    "name_placeholder": "Ваше имя",
-    "email_placeholder": "Ваш адрес электронной почты",
-    "phone_placeholder": "Ваш телефон",
+    "name_placeholder": "Пожалуйста, введите ваше имя",
+    "email_placeholder": "Пожалуйста, введите ваш адрес электронной почты",
+    "email_format": "Неверный формат электронной почты",
+    "phone_placeholder": "Пожалуйста, введите ваш телефон",
     "message_placeholder": "Пожалуйста, заполните данные",
-    "submit": "Отправить"
+    "submit": "Отправить",
+    "submit_success": "Отправка прошла успешно"
   },
   "home": "Главная",
   "productsList": {

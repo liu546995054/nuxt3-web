@@ -58,7 +58,7 @@ export default defineNuxtConfig({
   // 模块配置
   modules: [
     '@nuxtjs/i18n',
-    '@nuxtjs/robots'
+    '@nuxtjs/robots',
   ],
 
   // 多语言配置
@@ -93,7 +93,7 @@ export default defineNuxtConfig({
       alwaysRedirect: false
     },
     seo: true, // 启用SEO优化
-    baseUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://web.prowebbuilding.com/',
+    baseUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://titan-recycling.com/',
     // 5. 路由行为修正（关键）
     customRoutes: 'config',
 
@@ -107,7 +107,7 @@ export default defineNuxtConfig({
     // 允许所有路径抓取（核心修正）
     Allow: '/',
     // 确保Sitemap地址可访问（必须实际存在）
-    Sitemap: 'https://web.prowebbuilding.com/sitemap.xml'
+    Sitemap: 'https://titan-recycling.com/sitemap.xml'
   },
 
   // 路由配置
@@ -128,24 +128,24 @@ export default defineNuxtConfig({
 
   // 服务器配置
   server: {
-    port: process.env.PORT || 3000,
-    host: process.env.HOST || '0.0.0.0'
+    port: 3002,
+    host: '0.0.0.0'
   },
 
 
   // SSG预渲染路由
   nitro: {
     compatibilityDate: '2025-08-03', // 保留官方推荐的兼容性日期
-    preset: 'node-server', // 阿里云FC兼容的基础预设（FC支持Node.js运行时）
+    preset: 'node-server',
     output: {
-      dir: '.output', // 输出目录（后续部署到FC的代码目录）
-      publicDir: '.output/public' // 静态资源目录（需上传到OSS）
+      dir: '.output', // 输出目录
+      publicDir: '.output/public' // 静态资源目录
     },
     prerender: {
       routes: getPrerenderRoutes(), // 保留预渲染路由（初始静态页面）
       crawlLinks: false
     },
-    // 全局响应头（兼容阿里云CDN）
+    // 全局响应头
     '/**': {
       headers: {
         'X-Robots-Tag': 'index, follow',
@@ -168,6 +168,27 @@ export default defineNuxtConfig({
       },
       // 2. 默认语言新闻详情页（同上，保持规则一致）
       '/news/[id]': {
+        prerender: false, // 禁止预渲染
+        ssr: true,        // 强制服务端实时渲染
+        headers: {
+          'X-Robots-Tag': 'index, follow',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      },
+      '/**/news/news': {
+        prerender: false, // 禁止预渲染
+        ssr: true,        // 强制服务端实时渲染
+        headers: {
+          'X-Robots-Tag': 'index, follow',
+          // 禁止缓存，每次请求实时生成
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      },
+      '/news/news': {
         prerender: false, // 禁止预渲染
         ssr: true,        // 强制服务端实时渲染
         headers: {
