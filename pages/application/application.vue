@@ -118,7 +118,7 @@
                           <i class="mask"></i>
                         </div>
                         <figcaption>
-                          <h3>{{ $t('application.scrap_metal_cutting_shear')}}<</h3>
+                          <h3>{{ $t('application.scrap_metal_cutting_shear')}}</h3>
                         </figcaption>
                       </figure>
                     </NuxtLinkLocale>

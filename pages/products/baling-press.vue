@@ -92,7 +92,7 @@
                   </div>
                   <div class="product-content">
                     <div id="anchor-0" class="entry entry-content" style="display:block">
-                      <img src="/images/products/baling-press/TechnicalParameter/baling-press-technical-parameter.jpg" alt="baling-press-technical-parameter" />
+                      <img :src="$t('products_content.baling_press[8]')" alt="baling-press-technical-parameter" />
                     </div>
                     <div class="entry entry-content" style="display:none">
                       <div class="swiper-container slideshow-container">

@@ -67,7 +67,8 @@
       "Parámetros técnicos",
       "Galería",
       "Vídeos",
-      "Sitios de los clientes"
+      "Sitios de los clientes",
+      "/images/products/baling-press/TechnicalParameter/baling-press-technical-parameter-esp.png"
     ],
     "briquetting_press": [
       "Prensa briquetadora de virutas de chatarra serie Y83",
@@ -77,7 +78,8 @@
       "Parámetros técnicos",
       "Galería",
       "Vídeos",
-      "Sitios de los clientes"
+      "Sitios de los clientes",
+      "/images/products/briquetting-press/TechnicalParameter/briquetting-press-esp.png"
     ],
     "scrap_shear": [
       "Cizalla para chatarra serie Q",
@@ -86,7 +88,8 @@
       "Parámetros técnicos",
       "Galería",
       "Vídeos",
-      "Sitios de los clientes"
+      "Sitios de los clientes",
+      "/images/products/scrap-shear/TechnicalParameter/scrap-shear-esp.png"
     ],
     "scrap_shredder": [
       "Trituradora de chatarra serie T",
@@ -98,7 +101,9 @@
       "Vídeos",
       "Sitios de los clientes",
       "Trituradora de doble eje TITAN",
-      "Trituradora de eje único TITAN"
+      "Trituradora de eje único TITAN",
+      "/images/products/scrap-shredder/TechnicalParameter/scrap-shredder-1-esp.png",
+      "/images/products/scrap-shredder/TechnicalParameter/scrap-shredder-2-esp.png"
     ]
   },
   "application": {
@@ -206,7 +211,12 @@
     "title": "Acerca de",
     "company_name": "JIANGYIN TITAN MACHINERY EQUIPMENT CO., LTD",
     "slogan": "¡ESPERAMOS VERTE CADA VEZ!",
-    "description": "TITAN Recycling Machinery se fundó en 2013 en la ciudad de Jiangyin, provincia de Jiangsu, China, a unos 200 km de la ciudad de Shanghái. A orillas del río Yangtsé, TITAN lleva más de 12 años desarrollándose y ha instalado y prestado servicio con éxito a más de 1000 máquinas y equipos tanto en el mercado nacional como en los mercados internacionales de todo el mundo. Dedicada a la protección del medio ambiente y al reciclaje de recursos, TITAN se ha convertido en un fabricante profesional y líder en sistemas y soluciones de eliminación de residuos sólidos. Con tecnología avanzada y sofisticados equipos de mecanizado, TITAN ha contribuido a las industrias de reciclaje con máquinas empacadoras de chatarra, prensas briquetadoras de virutas de chatarra, cizallas para chatarra (incluidas cizallas de cocodrilo y cizallas guillotina), trituradoras de chatarra (tipo cuchilla y tipo molino de martillos) y TITAN también ofrece otros diseños y servicios no estándar según las solicitudes específicas del cliente."
+    "description": "TITAN Recycling Machinery se fundó en 2013 en la ciudad de Jiangyin, provincia de Jiangsu, China, a unos 200 km de la ciudad de Shanghái. A orillas del río Yangtsé, TITAN lleva más de 12 años desarrollándose y ha instalado y prestado servicio con éxito a más de 1000 máquinas y equipos tanto en el mercado nacional como en los mercados internacionales de todo el mundo. Dedicada a la protección del medio ambiente y al reciclaje de recursos, TITAN se ha convertido en un fabricante profesional y líder en sistemas y soluciones de eliminación de residuos sólidos. Con tecnología avanzada y sofisticados equipos de mecanizado, TITAN ha contribuido a las industrias de reciclaje con máquinas empacadoras de chatarra, prensas briquetadoras de virutas de chatarra, cizallas para chatarra (incluidas cizallas de cocodrilo y cizallas guillotina), trituradoras de chatarra (tipo cuchilla y tipo molino de martillos) y TITAN también ofrece otros diseños y servicios no estándar según las solicitudes específicas del cliente.",
+    "images": [
+      "/images/about/Клиент-прежде-всего.jpg",
+      "/images/about/Профессионал-высокого-качества.jpg",
+      "/images/about/Asistencia-posventa-de-por-vida.jpg"
+    ]
   },
   "news": {
     "noNews": "sin noticias",
@@ -218,7 +228,7 @@
   "contact": {
     "company_name": "JIANGYIN TITAN MACHINERY EQUIPMENT CO., LTD",
     "note": "Si tiene alguna pregunta sobre el servicio o la empresa, deje un mensaje o póngase en contacto con nosotros utilizando la siguiente información de contacto.",
-    "address": "#1 Renmin road,&nbspQiaoqi,&nbspJiangyin,&nbspJiangsu,&nbspChina"
+    "address": "N.º 9, Calle Guoyuan, Jiangyin, Jiangsu, China"
   },
   "message_box": {
     "title": "Deja un mensaje",

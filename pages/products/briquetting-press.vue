@@ -91,7 +91,7 @@
                   </div>
                   <div class="product-content">
                     <div id="anchor-0" class="entry entry-content" style="display:block">
-                      <img src="/images/products/briquetting-press/TechnicalParameter/WechatIMG1636.jpg" alt="TechnicalParameter"/>
+                      <img :src="$t('products_content.briquetting_press[8]')" alt="TechnicalParameter"/>
                     </div>
                     <div class="entry entry-content" style="display:none">
                       <div class="swiper-container slideshow-container">

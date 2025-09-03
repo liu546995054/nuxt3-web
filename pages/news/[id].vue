@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import {computed, ref, watch} from 'vue'
+import {computed, ref} from 'vue'
 import {useRoute} from 'vue-router'
 
 // 国际化
@@ -59,7 +59,6 @@ const {t} = useI18n()
 // 路由信息
 const route = useRoute()
 
-console.log('mmmmmm', route)
 
 // 状态管理
 const newsDetail = ref({})
@@ -102,55 +101,6 @@ if (data.value.error_code === 10000){
   }
 }
 
-
-
-// 移除原有的 fetchNewsDetail 函数，改用 useAsyncData 在组件初始化时获取数据
-// const {data, refresh, error: fetchError} = await useAsyncData(
-//     // 唯一缓存键（结合语言和新闻slug，确保不同新闻/语言的缓存独立）
-//     `news-detail-${currentLang}-${route.params.id}`,
-//     async () => {
-//       const {id} = route.params;
-//
-//       const apiUrl = `https://api.titan-recycling.com/article/v1/client/news/detail`;
-//
-//       const response = await fetch(apiUrl, {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json', // 指定JSON格式
-//         },
-//         body: JSON.stringify({id: id, lang: currentLang}) // 序列化请求体
-//       });
-//
-//
-//       if (!response.ok) {
-//         // 处理404或其他错误（例如跳转到404页面）
-//         if (response.status === 404) {
-//           throw createError({statusCode: 404, statusMessage: 'News not found'});
-//         }
-//         throw createError({statusCode: response.status, statusMessage: 'Failed to fetch news'});
-//       }
-//
-//       const data = await response.json();
-//       console.log('hhhhhh', data)
-//       return {
-//         detail: data.result_data
-//       };
-//     }
-// );
-
-
-
-
-
-
-
-// watch(
-//     () => route.params.locale,
-//     () => {
-//       refresh();
-//     },
-//     {immediate: true}
-// )
 
 // 设置SEO元数据
 useHead({

@@ -1,32 +1,6 @@
 <template>
   <div class="container">
-    <!--    <section id="wewe-8" class="section-item section-editor">-->
-    <!--      <div class="inner">-->
-    <!--        <div class="section-container">-->
-    <!--          <h2 class="heading-title tmd"><b>{{ $t('home_about[0]') }}</b></h2>-->
-    <!--          <div class="section-content section-title">-->
-    <!--            <p class="max70 aligncenter">-->
-    <!--              <strong>{{ $t('home_about[1]') }}</strong> {{ $t('home_about[2]') }}-->
-    <!--            </p>-->
-    <!--            <div class="pop-slider my-swiper-container"> &lt;!&ndash; 添加 my-swiper-container 类 &ndash;&gt;-->
-    <!--              &lt;!&ndash; Swiper 组件 &ndash;&gt;-->
-    <!--              <Swiper-->
-    <!--                  ref="swiperRef"-->
-    <!--                  :modules="modules"-->
-    <!--                  :autoplay="{ delay: 3000, disableOnInteraction: false }"-->
-    <!--                  :loop="true"-->
-    <!--                  :pagination="{ clickable: true }"-->
-    <!--                  class="my-swiper"-->
-    <!--              >-->
-    <!--                <SwiperSlide v-for="item in slides" :key="item.id">-->
-    <!--                  <img :src="item.image" alt="轮播图" class="w-full h-full object-cover" />-->
-    <!--                </SwiperSlide>-->
-    <!--              </Swiper>-->
-    <!--            </div>-->
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </section>-->
+
     <section id="wewe-8" class="section-item section-editor">
       <div class="inner">
         <div class="section-container">
@@ -44,19 +18,19 @@
 
                   <figure class="gallery-item swiper-slide">
                     <div class="gallery-icon landscape">
-                      <img width="1200" height="385" src="/images/about/bg1.jpg"
+                      <img width="1200" height="385" :src="$t('about.images[0]')"
                            class="attachment-full size-full" alt="Trade Assurance">
                     </div>
                   </figure>
                   <figure class="gallery-item swiper-slide">
                     <div class="gallery-icon landscape">
-                      <img width="1200" height="385" src="/images/about/bg2.jpg"
+                      <img width="1200" height="385" :src="$t('about.images[1]')"
                            class="attachment-full size-full" alt="Trade Assurance">
                     </div>
                   </figure>
                   <figure class="gallery-item swiper-slide">
                     <div class="gallery-icon landscape">
-                      <img width="1200" height="385" src="/images/about/bg3.jpg"
+                      <img width="1200" height="385" :src="$t('about.images[2]')"
                            class="attachment-full size-full" alt="Trade Assurance">
                     </div>
                   </figure>

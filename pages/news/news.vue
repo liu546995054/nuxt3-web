@@ -108,19 +108,15 @@
 </template>
 
 <script setup>
-import {computed, ref, watch} from 'vue'
+import {computed, ref} from 'vue'
 import {useRoute} from 'vue-router'
 import {useI18n} from 'vue-i18n'
 
-const {t} = useI18n()
-const route = useRoute()
 
 // 状态管理
 const newsList = ref([])
 const currentPage = ref(1)
-const totalPages = ref(1)
 const itemsPerPage = ref(3) // 每页显示3条
-const isHydrated = ref(false)
 
 
 // 计算属性
@@ -145,7 +141,6 @@ const { data, pending, error, refresh } = await useFetch(apiUrl, {
   }
 })
 
-console.log('ppppppppp',data.value)
 
 if (data.value.error_code === 10000){
   newsList.value = data.value.result_data.items.map(item => {

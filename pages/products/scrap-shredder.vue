@@ -95,10 +95,10 @@
 
 
                       <h2>{{ $t('products_content.scrap_shredder[8]') }}</h2>
-                      <img src="/images/products/scrap-shredder/TechnicalParameter/WechatIMG1642.jpg" alt="TechnicalParameter" />
+                      <img :src="$t('products_content.scrap_shredder[10]') " alt="TechnicalParameter" />
                       <h2>{{ $t('products_content.scrap_shredder[9]') }}
                       </h2>
-                      <img src="/images/products/scrap-shredder/TechnicalParameter/WechatIMG1644.jpg" alt="TechnicalParameter" />
+                      <img :src="$t('products_content.scrap_shredder[11]') " alt="TechnicalParameter" />
                     </div>
                     <div class="entry entry-content" style="display:none">
                       <div class="swiper-container slideshow-container">

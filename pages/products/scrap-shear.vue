@@ -92,7 +92,7 @@
                   </div>
                   <div class="product-content">
                     <div id="anchor-0" class="entry entry-content" style="display:block">
-                      <img src="/images/products/scrap-shear/TechnicalParameter/WechatIMG1639.jpg" alt="TechnicalParameter" />
+                      <img :src="$t('products_content.scrap_shear[7]')" alt="TechnicalParameter" />
                     </div>
                     <div class="entry entry-content" style="display:none">
                       <div class="swiper-container slideshow-container">

@@ -144,7 +144,7 @@
             <p><strong><i class="fa fa-whatsapp"></i></strong> +86 183 6080 9300</p>
             <p><strong><i class="fa fa-envelope-o"></i></strong><a href="mailto:aaron@titan-recycling.com"
                                                                    rel="nofollow">
-              info@titan-recycling.com</a>
+              aaron@titan-recycling.com</a>
             </p>
 
             <p><strong><img src="/images/address.png"></strong>{{ $t('contact.address') }}</p>
@@ -156,7 +156,7 @@
 
 
     <!--右下角<div class=" message-form-box">-->
-    <div class="message-form-box" id="messageBox">
+    <div class="message-form-box" id="messageBox" style="z-index: 10">
       <div class="message-header radius-top">
 				<span class="label">
 					<i class="fa fa-commenting-o"></i>

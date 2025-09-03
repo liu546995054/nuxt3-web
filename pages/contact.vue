@@ -40,7 +40,7 @@
                 <p class="note">{{ $t('contact.note') }}</p>
                 <div class="cont">
                   <p><i class="fa fa-whatsapp"></i><label style="margin-left: 8px;" class="lang"
-                                                          key="PHONE"></label>+86-18913530891</p>
+                                                          key="PHONE"></label>+86-183 6080 9300</p>
                   <p><i class="fa fa-envelope-o"></i><label style="margin-left: 8px;" class="lang"
                                                             key="EMAIL"></label>aaron@titan-recycling.com</p>
                   <p><img style="width: 20px;height: 20px;" src="/images/address.png" alt="pre-consumer-scrap">

@@ -23,6 +23,12 @@ export default defineNuxtConfig({
         { name: 'robots', content: 'index, follow' } // 明确允许收录和跟踪链接
       ],
       link: [
+        // 根据你的文件类型和名称修改以下配置
+        {
+          rel: 'icon',
+          type: 'image/x-icon',  // 类型：ico 对应 image/x-icon；png 对应 image/png；svg 对应 image/svg+xml
+          href: '/favicon.ico'   // 路径：public 目录下的文件名（如果放在子目录，需加路径，如 /icons/favicon.ico）
+        }
       ],
       script: [
         // jQuery必须同步加载（defer: false）
@@ -31,7 +37,7 @@ export default defineNuxtConfig({
         // 其他脚本可以延迟加载
         { src: '/js/xzoom.min.js', body: true, defer: true },
         { src: '/js/zwebs.js', body: true, defer: true },
-        { src: '/js/translate.js', body: true, defer: true, mode: 'client' }, // 仅客户端
+        // { src: '/js/translate.js', body: true, defer: true, mode: 'client' }, // 仅客户端
         { src: '/js/pagination.js', body: true, defer: true }
       ]
     }

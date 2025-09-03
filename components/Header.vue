@@ -125,36 +125,36 @@
                 </NuxtLinkLocale>
               </li>
               <li class="menu-item ">
-                <div class="menu-lang" id="translate">
+              <div class="menu-lang" id="translate">
                       <span class="english" @click="changeLanguage('en')"
                             style="padding: 0 4px;">
                         <img style="width: 22px;height: 22px;" src="/images/l1.jpg">
 
                       </span>
-                  <span class="trans" @click="changeLanguage('ru')"
-                        style="padding: 0 4px;">
+                <span class="trans" @click="changeLanguage('ru')"
+                      style="padding: 0 4px;">
                         <img style="width: 22px;height: 22px;" src="/images/l2.jpg">
                       </span>
-                  <span class="trans" @click="changeLanguage('esp')"
-                     style="padding: 0 4px;">
+                <span class="trans" @click="changeLanguage('esp')"
+                      style="padding: 0 4px;">
                     <img style="width: 22px;height: 22px;" src="/images/l3.jpg">
                   </span>
-                </div>
-              </li>
+              </div>
+            </li>
               <li class="menu-item ">
                 <a href="mailto:aaron@titan-recycling.com" rel="nofollow" aria-current="page"
                    itemprop="url" style="padding: 0 4px;padding-left: 20px;">
                   <i class="fa fa-envelope-o"></i>
-                  <span style="font-weight: 400;font-size: 14px;">
+                  <span style="font-weight: 400;font-size: 14px;padding-left: 4px">
 											E-mail
 										</span>
                 </a>
               </li>
               <li class="menu-item ">
-                <a href="#" aria-current="page" itemprop="url"
+                <a href="tel:18360809300" aria-current="page" itemprop="url"
                    style="padding: 0 4px;padding-left: 20px;">
                   <i class="fa fa-whatsapp"></i>
-                  <span style="font-weight: 400;font-size: 14px;">+86-18913530891</span>
+                  <span style="font-weight: 400;font-size: 14px;">+86-183 6080 9300</span>
                 </a>
               </li>
 
@@ -172,8 +172,8 @@
 
 <script setup>
 // 1. 首先在顶层调用所有组合式API（这是必须的）
-import { loadExternalScripts } from '~/utils/utils'
-import { useRouter, useRoute } from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
+
 const { locale, setLocale } = useI18n()
 const route = useRoute()
 const router = useRouter()
@@ -255,10 +255,10 @@ const changeLanguage = async (lang) => {
 //   loadExternalScripts()
 // })
 
-router.afterEach(() => {
-  // 触发全局事件，通知路由已切换
-  loadExternalScripts()
-})
+// router.afterEach(() => {
+//   // 触发全局事件，通知路由已切换
+//   loadExternalScripts()
+// })
 
 </script>
 

@@ -67,7 +67,8 @@
       "Technical Parameter",
       "Gallery",
       "Videos",
-      "Customers' Sites"
+      "Customers' Sites",
+      "/images/products/baling-press/TechnicalParameter/baling-press-technical-parameter.jpg"
     ],
     "briquetting_press": [
       "Y83 series scrap chips briquetting press",
@@ -77,7 +78,8 @@
       "Technical Parameter",
       "Gallery",
       "Videos",
-      "Customers' Sites"
+      "Customers' Sites",
+      "/images/products/briquetting-press/TechnicalParameter/briquetting-press-en.jpg"
     ],
     "scrap_shear": [
       "Q series scrap metal shear machine",
@@ -86,7 +88,8 @@
       "Technical Parameter",
       "Gallery",
       "Videos",
-      "Customers' Sites"
+      "Customers' Sites",
+      "/images/products/scrap-shear/TechnicalParameter/scrap-shear-en.jpg"
     ],
     "scrap_shredder": [
       "T series scrap metal shredder",
@@ -98,7 +101,9 @@
       "Videos",
       "Customers' Sites",
       "TITAN Double Shaft Shredder",
-      "TITAN Single Shaft Shredder"
+      "TITAN Single Shaft Shredder",
+      "/images/products/scrap-shredder/TechnicalParameter/scrap-shredder-1-en.jpg",
+      "/images/products/scrap-shredder/TechnicalParameter/scrap-shredder-2-en.jpg"
     ]
   },
   "application": {
@@ -206,7 +211,12 @@
     "title": "About",
     "company_name": "JIANGYIN TITAN MACHINERY EQUIPMENT CO., LTD",
     "slogan": "LOOK FORWARD TO MEETING YOU EVERY TIME!",
-    "description": "TITAN Recycling Machinery was founded in 2013 located in Jiangyin city,Jiangsu province, China which is around 200 KM away from the Shanghai city. By the side of the Yangtze River, TITAN has been developing for over 12 years and has successfully installed and served over 1000 machines and equipment in both domestic and worldwide international markets. Devoting to environment protection and resource recycling, TITAN has been developing to a professional and leading manufacturer in solid waste disposal systems and solutions.With advanced technology and sophisticated machining equipment, TITAN has contributed to recycling industries with scrap metal baling machine, scrap chips briquetting press machine, scrap metal shear (including alligator shear and guillotine shear), scrap metal shredder (blade type and hammer mill type) and TITAN also provides other non-standard designs and services according to the customer's specific requests."
+    "description": "TITAN Recycling Machinery was founded in 2013 located in Jiangyin city,Jiangsu province, China which is around 200 KM away from the Shanghai city. By the side of the Yangtze River, TITAN has been developing for over 12 years and has successfully installed and served over 1000 machines and equipment in both domestic and worldwide international markets. Devoting to environment protection and resource recycling, TITAN has been developing to a professional and leading manufacturer in solid waste disposal systems and solutions.With advanced technology and sophisticated machining equipment, TITAN has contributed to recycling industries with scrap metal baling machine, scrap chips briquetting press machine, scrap metal shear (including alligator shear and guillotine shear), scrap metal shredder (blade type and hammer mill type) and TITAN also provides other non-standard designs and services according to the customer's specific requests.",
+    "images": [
+      "/images/about/bg1.jpg",
+      "/images/about/bg2.jpg",
+      "/images/about/bg3.jpg"
+    ]
   },
   "news": {
     "noNews": "noNews",
