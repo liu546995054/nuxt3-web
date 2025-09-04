@@ -69,6 +69,12 @@ export default defineNuxtConfig({
 
   // 多语言配置
   i18n: {
+    useCookie: true,
+    cookieOptions: {
+      path: '/', // 整个网站可见
+      maxAge: 60 * 60 * 24 * 30 // 有效期 30 天
+    },
+
     bundle: {
       optimizeTranslationDirective: false // 明确设置为 false
     },
@@ -95,6 +101,8 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
+      // 检测顺序：先 cookie，再浏览器设置
+      order: ['cookie', 'navigator'],
       redirectOn: 'root', // 改为'all'确保所有页面都检测
       alwaysRedirect: false
     },
